@@ -8,7 +8,7 @@
 import Foundation
 
 public func L10n(_ key : String, tableName: String = "ZIMKit", _ args: CVarArg...) -> String {
-    let format = Bundle.ZIMKit.localizedString(forKey: key, value: "", table: tableName)
-    return String(format: format, args)
+    let format = ZIMKitLocalizeManager.shared.localizedString(key: key, tableName: tableName)
+    return String(format: format, arguments: args)
 }
 

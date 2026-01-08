@@ -42,15 +42,33 @@ import ZegoPluginAdapter
     func writeLog(_ level:ZIMKitLogLevel, msg:String)
 }
 
+@objc public enum ZIMKitLanguage: Int {
+    case english
+    case simplifiedChinese
+    case traditionalChinese
+    case hongKongChinese
+    
+    var identifier: String {
+        switch self {
+        case .english: return "en"
+        case .simplifiedChinese: return "zh-Hans"
+        case .traditionalChinese: return "zh-Hant"
+        case .hongKongChinese: return "zh-HK"
+        }
+    }
+}
+
 public class ZIMKit: NSObject {
     var imKitConfig: ZIMKitConfig = ZIMKitCore.shared.config ?? ZIMKitConfig()
   
-    @objc public static func initWith(appID: UInt32, appSign: String) {
+    @objc public static func initWith(appID: UInt32, appSign: String, language: ZIMKitLanguage) {
         ZIMKitCore.shared.initWith(appID: appID, appSign: appSign, config: nil)
+        ZIMKitLocalizeManager.shared.set(language: language)
     }
     
-    @objc public static func initWith(appID: UInt32, appSign: String,config:ZIMKitConfig?) {
+    @objc public static func initWith(appID: UInt32, appSign: String, language: ZIMKitLanguage, config:ZIMKitConfig?) {
         ZIMKitCore.shared.initWith(appID: appID, appSign: appSign,config: config)
+        ZIMKitLocalizeManager.shared.set(language: language)
     }
     
     @objc public static func unInit() {
