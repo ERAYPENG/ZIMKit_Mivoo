@@ -53,10 +53,10 @@ class ChatTextView: _View {
     lazy var textView: TextView = {
         let view = TextView().withoutAutoresizingMaskConstraints
         view.font = UIFont.systemFont(ofSize: 16)
-        view.textColor = .zim_textBlack1
-        view.backgroundColor = .zim_backgroundWhite
+        view.textColor = .white
+        view.backgroundColor = .mivoo_backgroundDarkBlue2
         view.returnKeyType = .default
-        view.tintColor = UIColor(hex: 0x3478FC)
+//        view.tintColor = UIColor(hex: 0x3478FC)
 //        view.autocapitalizationType = .none
         
         
@@ -96,7 +96,7 @@ class ChatTextView: _View {
     override func setUp() {
         super.setUp()
         
-        backgroundColor = .zim_backgroundWhite
+        backgroundColor = .mivoo_backgroundDarkBlue1
         layer.cornerRadius = 8.0
         layer.masksToBounds = true
         setUpSubViews()

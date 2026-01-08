@@ -94,7 +94,7 @@ public class ZIMKit: NSObject {
     internal var appID: UInt32?
     internal var appSign :String = ""
   
-    @objc public var navigationBarColor: UIColor = UIColor.white
+    @objc public var navigationBarColor: UIColor = .mivoo_backgroundDarkBlue1
     @objc public var inputPlaceholder:NSAttributedString =  NSAttributedString(string: L10n("enter_new_message"), attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: 0x8E9093), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
     @objc public var advancedConfig:[String:AnyObject]?
 }

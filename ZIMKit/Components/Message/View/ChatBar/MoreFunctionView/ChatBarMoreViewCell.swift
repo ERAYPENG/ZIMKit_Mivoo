@@ -15,7 +15,7 @@ class ChatBarMoreViewCell: _CollectionViewCell {
         let view = UIView().withoutAutoresizingMaskConstraints
         view.layer.cornerRadius = 12
         view.layer.masksToBounds = true
-        view.backgroundColor = .zim_backgroundWhite
+        view.backgroundColor = .mivoo_backgroundDarkBlue2
         return view
     }()
     

@@ -46,7 +46,9 @@ class GroupMemberListVC: _ViewController {
         navigationItem.title = L10n("group_member_list")
         
         let leftButton = UIButton(type: .custom)
-        leftButton.setImage(loadImageSafely(with: "chat_nav_left"), for: .normal)
+        let image = UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate)
+        leftButton.setImage(image, for: .normal)
+        leftButton.tintColor = .white
         leftButton.addTarget(self, action: #selector(backItemClick(_:)), for: .touchUpInside)
         leftButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         leftButton.heightAnchor.constraint(equalToConstant: 40).isActive = true

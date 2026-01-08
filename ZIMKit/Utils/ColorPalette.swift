@@ -30,6 +30,7 @@ public extension UIColor {
     static let zim_textBlack2 = loadColorSafely("#394256")
     /// #FF4A50
     static let zim_textRed = loadColorSafely("#FF4A50")
+    static let mivoo_textGray = UIColor(hex: "#B4B4B4")
 
 
     // MARK: - Background Color
@@ -60,4 +61,7 @@ public extension UIColor {
     // MARK: - Shadow Color
     /// #212329
     static let zim_shadowBlack = loadColorSafely("#212329")
+    static let mivoo_backgroundDarkBlue1 = UIColor(hex: "#171325")
+    static let mivoo_backgroundDarkBlue2 = UIColor(hex: "#313045")
+    static let mivoo_seperatorGray = UIColor(hex: "#4B4B4B")
 }

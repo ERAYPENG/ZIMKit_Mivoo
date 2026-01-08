@@ -97,7 +97,7 @@ class ChatBar: _View {
     // MARK: - Top ContentView
     lazy var bottomBarView: UIStackView = {
         let view = UIStackView().withoutAutoresizingMaskConstraints
-        view.backgroundColor = UIColor(hex: 0xF5F6F7)
+        view.backgroundColor = .mivoo_backgroundDarkBlue1
         view.distribution = .equalSpacing
         view.alignment = .center
         view.layoutMargins = .init(top: 8, left: 36, bottom: 8, right: 36)
@@ -304,7 +304,7 @@ class ChatBar: _View {
     override func setUp() {
         super.setUp()
         calculatedStackViewSpacing()
-        backgroundColor = UIColor(hex: 0xF5F6F7)
+        backgroundColor = .mivoo_backgroundDarkBlue1
         layer.shadowOffset = CGSize(width: 0, height: -2.0)
         layer.shadowColor = UIColor.zim_shadowBlack.withAlphaComponent(0.04).cgColor
         layer.shadowOpacity = 1.0
@@ -627,9 +627,9 @@ extension ChatBar {
         voiceButton.isSelected = status == .voice
         sendVoiceView.isHidden = status != .voice
         //        recordButton.isHidden = status != .voice
-        backgroundColor = (status == .voice || status == .select)
-        ? .zim_backgroundGray1
-        : UIColor(hex: 0xF5F6F7)
+//        backgroundColor = (status == .voice || status == .select)
+//        ? .zim_backgroundGray1
+//        : UIColor(hex: 0xF5F6F7)
         if status == .keyboard {
             chatTextView.textView.becomeFirstResponder()
         } else {
@@ -696,7 +696,7 @@ extension ChatBar: TextViewDelegate {
         paragraphStyle.lineSpacing = 7.0  //行间距
         let fontSize: CGFloat = 15.0
         
-        let attributedString = NSAttributedString(string: textView.text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize), NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        let attributedString = NSAttributedString(string: textView.text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize), NSAttributedString.Key.paragraphStyle: paragraphStyle, NSAttributedString.Key.foregroundColor: UIColor.white])
         
         if let lang = textView.textInputMode?.primaryLanguage, lang == "zh-Hans" {
             if textView.markedTextRange == nil {

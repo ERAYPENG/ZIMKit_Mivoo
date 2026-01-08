@@ -19,7 +19,7 @@ class ZIMKitFullScreenEnterView: UIView {
     var sendButton:UIButton?
     lazy var titleLabel: UILabel = {
         let label = UILabel().withoutAutoresizingMaskConstraints
-        label.textColor = .zim_textBlack1
+        label.textColor = .zim_textWhite
         label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         return label
     }()
@@ -36,8 +36,8 @@ class ZIMKitFullScreenEnterView: UIView {
     lazy var textView: UITextView = {
         let view = UITextView().withoutAutoresizingMaskConstraints
         view.font = UIFont.systemFont(ofSize: 15)
-        view.textColor = .zim_textBlack1
-        view.backgroundColor = .zim_backgroundWhite
+        view.textColor = .white
+        view.backgroundColor = .mivoo_backgroundDarkBlue2
         view.returnKeyType = .default
         view.delegate = self
         view.tintColor = UIColor(hex: 0x3478FC)
@@ -58,7 +58,7 @@ class ZIMKitFullScreenEnterView: UIView {
     
     lazy var contentView: UIView = {
         let view = UIView().withoutAutoresizingMaskConstraints
-        view.backgroundColor = .zim_backgroundWhite
+        view.backgroundColor = .mivoo_backgroundDarkBlue1
         view.clipsToBounds = true
         return view
     }()
@@ -67,7 +67,7 @@ class ZIMKitFullScreenEnterView: UIView {
         let label = UILabel().withoutAutoresizingMaskConstraints
         label.backgroundColor = UIColor(hex: 0xF2F3F5)
         label.alpha = 0.9
-        label.textColor = UIColor(hex: 0x646A73)
+        label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 13)
         label.clipsToBounds = true
         label.layer.cornerRadius = 4
@@ -87,7 +87,7 @@ class ZIMKitFullScreenEnterView: UIView {
     
     public init(content:String,conversationName:String,replyMessage:String = "",cursorPosition:Int = 0) {
         super.init(frame: UIScreen.main.bounds)
-        self.backgroundColor = UIColor(hex: 0x000000, a: 0.4)
+        self.backgroundColor = .mivoo_backgroundDarkBlue1
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
@@ -226,7 +226,7 @@ class ZIMKitFullScreenEnterView: UIView {
         paragraphStyle.lineSpacing = 7.0  //行间距
         let fontSize: CGFloat = 15.0
         
-        let attributedString = NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize), NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        let attributedString = NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize), NSAttributedString.Key.paragraphStyle: paragraphStyle, NSAttributedString.Key.foregroundColor: UIColor.white])
         if let lang = textView.textInputMode?.primaryLanguage, lang == "zh-Hans" {
             if textView.markedTextRange == nil {
                 textView.attributedText = attributedString

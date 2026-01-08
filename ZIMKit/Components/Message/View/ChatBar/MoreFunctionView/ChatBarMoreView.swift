@@ -31,7 +31,7 @@ class ChatBarMoreView: _View {
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: bounds, collectionViewLayout: flowLayout)
             .withoutAutoresizingMaskConstraints
-        collectionView.backgroundColor = .zim_backgroundGray2
+        collectionView.backgroundColor = .mivoo_backgroundDarkBlue1
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
@@ -48,7 +48,7 @@ class ChatBarMoreView: _View {
     public var dataSource:[ChatBarMoreModel] = []
     override func setUp() {
         super.setUp()
-        backgroundColor = .zim_backgroundGray2
+        backgroundColor = .mivoo_backgroundDarkBlue1
     }
     
     override func setUpLayout() {

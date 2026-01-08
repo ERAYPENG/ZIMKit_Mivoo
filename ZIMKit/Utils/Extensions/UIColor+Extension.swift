@@ -24,6 +24,49 @@ public extension UIColor {
         assert(b >= 0 && b <= 255, "Invalid blue component")
         self.init(red: CGFloat(r)/255.0, green: CGFloat(g)/255.0, blue: CGFloat(b)/255.0, alpha: a)
     }
+    
+    /// - Parameter hex: 十六進制字串，支援 #RGB, #RRGGBB, 或 #AARRGGBB 格式
+    convenience init(hex: String, defaultColor: UIColor = .clear) {
+        var cleanedHexString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        
+        if cleanedHexString.hasPrefix("#") {
+            cleanedHexString.remove(at: cleanedHexString.startIndex)
+        }
+        
+        var rgbValue: UInt64 = 0
+        let length = cleanedHexString.count
+        
+        if length == 3 {
+            // #RGB
+            let r = cleanedHexString.prefix(1)
+            let g = cleanedHexString.dropFirst().prefix(1)
+            let b = cleanedHexString.dropFirst(2).prefix(1)
+            cleanedHexString = "\(r)\(r)\(g)\(g)\(b)\(b)"
+        }
+        
+        guard Scanner(string: cleanedHexString).scanHexInt64(&rgbValue) else {
+            self.init(cgColor: defaultColor.cgColor)
+            return
+        }
+        
+        switch cleanedHexString.count {
+        case 6:
+            let red   = CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0
+            let green = CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0
+            let blue  = CGFloat(rgbValue & 0x0000FF) / 255.0
+            self.init(red: red, green: green, blue: blue, alpha: 1.0)
+
+        case 8:
+            let alpha = CGFloat((rgbValue & 0xFF000000) >> 24) / 255.0
+            let red   = CGFloat((rgbValue & 0x00FF0000) >> 16) / 255.0
+            let green = CGFloat((rgbValue & 0x0000FF00) >> 8) / 255.0
+            let blue  = CGFloat(rgbValue & 0x000000FF) / 255.0
+            self.init(red: red, green: green, blue: blue, alpha: alpha)
+
+        default:
+            self.init(cgColor: defaultColor.cgColor)
+        }
+    }
 }
 
 public extension UIColor {

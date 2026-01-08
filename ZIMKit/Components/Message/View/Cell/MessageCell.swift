@@ -30,7 +30,7 @@ class MessageCell: _TableViewCell {
         let imageView = UIImageView().withoutAutoresizingMaskConstraints
         imageView.contentMode = .scaleAspectFill
         imageView.image = loadImageSafely(with: "avatar_default")
-        imageView.layer.cornerRadius = 8.0
+        imageView.layer.cornerRadius = 24
         imageView.layer.masksToBounds = true
         return imageView
     }()
@@ -145,7 +145,7 @@ class MessageCell: _TableViewCell {
         ])
         
         contentView.addSubview(avatarImageView)
-        avatarImageView.pin(to: 43.0)
+        avatarImageView.pin(to: 48)
         updateAvatarConstraint()
         
         contentView.addSubview(selectIcon)

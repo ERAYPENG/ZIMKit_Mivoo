@@ -14,7 +14,7 @@ class ConversationCell: _TableViewCell {
     lazy var headImageView:UIImageView = {
         let imageView = UIImageView().withoutAutoresizingMaskConstraints
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 7
+        imageView.layer.cornerRadius = 26
         return imageView
     }()
     
@@ -30,7 +30,7 @@ class ConversationCell: _TableViewCell {
         let label = UILabel().withoutAutoresizingMaskConstraints
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 17)
-        label.textColor = .zim_textBlack1
+        label.textColor = .white
         return label
     }()
     
@@ -38,7 +38,7 @@ class ConversationCell: _TableViewCell {
         let label = UILabel().withoutAutoresizingMaskConstraints
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = .zim_textGray1
+        label.textColor = .mivoo_textGray
         return label
     }()
     
@@ -46,7 +46,7 @@ class ConversationCell: _TableViewCell {
         let label = UILabel().withoutAutoresizingMaskConstraints
         label.textAlignment = .right
         label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = .zim_textGray2
+        label.textColor = .zim_textGray3
         return label
     }()
     
@@ -60,7 +60,7 @@ class ConversationCell: _TableViewCell {
     
     lazy var line: UIView = {
         let view = UIView().withoutAutoresizingMaskConstraints
-        view.backgroundColor = .zim_backgroundGray3
+        view.backgroundColor = .mivoo_seperatorGray
         contentView.addSubview(view)
         return view
     }()
@@ -76,7 +76,7 @@ class ConversationCell: _TableViewCell {
     override func setUp() {
         super.setUp()
         
-        backgroundColor = .zim_backgroundWhite
+        backgroundColor = .mivoo_backgroundDarkBlue1
         selectionStyle = .none
     }
     
@@ -97,7 +97,7 @@ class ConversationCell: _TableViewCell {
         headImageView.leadingAnchor.pin(
             equalTo: contentView.leadingAnchor,
             constant: 15).isActive = true
-        headImageView.pin(to: 48.0)
+        headImageView.pin(to: 52)
         headImageView.pin(anchors: [.centerY], to: contentView)
         
         NSLayoutConstraint.activate([
@@ -240,7 +240,7 @@ class ConversationCell: _TableViewCell {
         } else {
             subtitleLeadingConstraint.constant = 0
         }
-        contentView.backgroundColor = (model.isPinned == true) ? UIColor(hex: 0xF8F8F8) : UIColor(hex: 0xFFFFFFF)
+        contentView.backgroundColor = (model.isPinned == true) ? UIColor(hex: "#1F1A2F") : .clear
         
         self.layoutIfNeeded()
     }

@@ -37,7 +37,7 @@ open class ZIMKitConversationListVC: _ViewController {
     
     open override func setUp() {
         super.setUp()
-        view.backgroundColor = .white
+        view.backgroundColor = .mivoo_backgroundDarkBlue1
         self.navigationItem.title = "In-app Chat"
     }
     
@@ -50,7 +50,6 @@ open class ZIMKitConversationListVC: _ViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = ZIMKit().imKitConfig.navigationBarColor
         configViewModel()
         LocalAPNS.shared.setupLocalAPNS()
         initCallConfig()

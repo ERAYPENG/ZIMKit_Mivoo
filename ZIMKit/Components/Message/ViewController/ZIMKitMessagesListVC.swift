@@ -58,7 +58,7 @@ open class ZIMKitMessagesListVC: _ViewController {
         tableView.estimatedSectionFooterHeight = 0.0
         tableView.estimatedSectionHeaderHeight = 0.0
         tableView.contentInset = UIEdgeInsets(top: 16.0, left: 0, bottom: 0, right: 0)
-        tableView.backgroundColor = .zim_backgroundGray1
+        tableView.backgroundColor = .mivoo_backgroundDarkBlue1
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableHeaderView = indicatorView
@@ -158,9 +158,12 @@ open class ZIMKitMessagesListVC: _ViewController {
         let leftButton = UIButton(type: .custom)
         if viewModel.isShowCheckBox {
             leftButton.setTitle(L10n("conversation_cancel"), for: .normal)
-            leftButton.setTitleColor(.zim_textBlack1, for: .normal)
+            leftButton.setTitleColor(.white, for: .normal)
+            leftButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         } else {
-            leftButton.setImage(loadImageSafely(with: "chat_nav_left"), for: .normal)
+            let image = UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate)
+            leftButton.setImage(image, for: .normal)
+            leftButton.tintColor = .white
         }
         leftButton.addTarget(self, action: #selector(leftItemClick), for: .touchUpInside)
 

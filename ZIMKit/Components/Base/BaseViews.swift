@@ -328,7 +328,12 @@ open class _ViewController: UIViewController, Customizable {
         } else {
             if #available(iOS 15.0, *) {
                 let appearance = UINavigationBarAppearance()
-                appearance.backgroundColor = ZIMKit().imKitConfig.navigationBarColor
+                appearance.configureWithOpaqueBackground()
+                appearance.backgroundColor = .mivoo_backgroundDarkBlue1
+                appearance.titleTextAttributes = [
+                    .foregroundColor: UIColor.white,
+                    .font: UIFont.systemFont(ofSize: 17)
+                ]
                 let shadowColor = ZIMKit().imKitConfig.advancedConfig?[ZIMKitAdvancedKey.navigationBarShadowColor]
                 if shadowColor is UIColor && shadowColor != nil {
                     appearance.shadowColor = ZIMKit().imKitConfig.advancedConfig?[ZIMKitAdvancedKey.navigationBarShadowColor] as? UIColor// 设置分割线颜色
