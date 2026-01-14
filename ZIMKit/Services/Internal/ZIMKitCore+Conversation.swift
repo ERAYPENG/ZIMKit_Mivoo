@@ -107,4 +107,19 @@ extension ZIMKitCore {
             callback?(ZIMKitConversation(with: conversion),errorInfo)
         })
     }
+    
+    func updateConversations(with changeInfoList: [ZIMConversationChangeInfo]) {
+        guard isConversationInit else { return }
+
+        for changeInfo in changeInfoList {
+            if let index = conversations.firstIndex(where: { con in
+                con.id == changeInfo.conversation.conversationID && con.type == changeInfo.conversation.type
+            }) {
+                conversations.remove(at: index)
+            }
+            conversations.append(ZIMKitConversation(with: changeInfo.conversation))
+        }
+        
+        conversations = conversations.sorted { $0.orderKey > $1.orderKey }
+    }
 }
