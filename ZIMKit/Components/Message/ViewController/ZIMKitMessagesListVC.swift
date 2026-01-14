@@ -193,7 +193,9 @@ open class ZIMKitMessagesListVC: _ViewController {
         self.navigationItem.leftBarButtonItem = setNavigationBackItem()
         
         let rightButton = UIButton(type: .custom)
-        rightButton.setImage(loadImageSafely(with: "chat_nav_right"), for: .normal)
+        let image = loadImageSafely(with: "chat_nav_right").withRenderingMode(.alwaysTemplate)
+        rightButton.setImage(image, for: .normal)
+        rightButton.tintColor = .white
         rightButton.addTarget(self, action: #selector(rightItemClick(_:)), for: .touchUpInside)
         rightButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         rightButton.heightAnchor.constraint(equalToConstant: 40).isActive = true

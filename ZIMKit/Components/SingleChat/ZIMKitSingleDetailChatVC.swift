@@ -86,7 +86,9 @@ class ZIMKitSingleDetailChatVC: _ViewController {
         navigationItem.title = L10n("conversation_chat_setting")
         
         let leftButton = UIButton(type: .custom)
-        leftButton.setImage(loadImageSafely(with: "chat_nav_left"), for: .normal)
+        let image = loadImageSafely(with: "chat_nav_left").withRenderingMode(.alwaysTemplate)
+        leftButton.setImage(image, for: .normal)
+        leftButton.tintColor = .white
         leftButton.addTarget(self, action: #selector(backItemClick(_:)), for: .touchUpInside)
         leftButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         leftButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
