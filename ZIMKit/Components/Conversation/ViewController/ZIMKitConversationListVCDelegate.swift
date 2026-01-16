@@ -23,4 +23,7 @@ import Foundation
     
     @objc optional
     func shouldHideSwipeDeleteItem(_ conversationListVC: ZIMKitConversationListVC, didSelectWith conversation: ZIMKitConversation) -> Bool
+    
+    @objc optional
+    func didTapFriendApplicationCell(_ conversationListVC: ZIMKitConversationListVC)
 }

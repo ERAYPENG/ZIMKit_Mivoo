@@ -28,6 +28,7 @@ class ZIMKitCore: NSObject {
     var isLoadedAllConversations = false
     var isConversationInit = false
     var config : ZIMKitConfig?
+    @Published var newestFriendApplicationInfo: ZIMFriendApplicationInfo?
     let delegates: NSHashTable<ZIMKitDelegate> = NSHashTable(options: .weakMemory)
 
     func initWith(appID: UInt32, appSign: String,config:ZIMKitConfig?) {

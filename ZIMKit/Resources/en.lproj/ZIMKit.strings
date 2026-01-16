@@ -38,6 +38,9 @@
 "conversation_reload" = "Reload";
 "conversation_disconnected" = "Disconnected";
 "conversation_connecting" = "Connecting...";
+"conversation_application_noti" = "Friends Notification";
+"conersation_application_friend_invite" = "[Friend Request]";
+"conersation_application_description" = "%@ has sent you a friend request";
 
 "message_user_not_exit_please_again" = "The user ID (%@) doesn't exist. Please try again.";
 "message_cant_send_empty_msg" = "Blank messages are not allowed";

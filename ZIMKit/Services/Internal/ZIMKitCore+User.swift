@@ -137,4 +137,45 @@ extension ZIMKitCore {
             }
         }
     }
+    
+    func getNewestFriendApplication() {
+        Task {
+            var nextFlag: UInt32 = 0
+            var foundApplication: ZIMFriendApplicationInfo?
+
+            repeat {
+                let config = ZIMFriendApplicationListQueryConfig()
+                config.count = 50
+                config.nextFlag = nextFlag
+
+                let (result, next) = await withCheckedContinuation { continuation in
+                    zim?.queryFriendApplicationList(with: config) { result, nextFlag, _ in
+                        continuation.resume(returning: (result, nextFlag))
+                    }
+                }
+
+                if let firstReceived = result.first(where: {
+                    $0.type == .received &&
+                    $0.state == .waiting
+                }) {
+                    foundApplication = firstReceived
+                    break
+                }
+
+                nextFlag = next
+            } while nextFlag != 0
+            
+            self.newestFriendApplicationInfo = foundApplication
+        }
+    }
+    
+    // 好友列表發生變化(更新或是加減)
+    func updateNewestFriendApplication(from list: [ZIMFriendApplicationInfo]) {
+        if let newest = list.first(where: {
+            $0.type == .received &&
+            $0.state == .waiting
+        }) {
+            self.newestFriendApplicationInfo = newest
+        }
+    }
 }

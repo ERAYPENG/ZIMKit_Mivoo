@@ -55,4 +55,8 @@ extension ZIMKit {
     @objc public static func updateConversations(with changeInfoList: [ZIMConversationChangeInfo]) {
         ZIMKitCore.shared.updateConversations(with: changeInfoList)
     }
+    
+    @objc public static func updateNewestFriendApplication(from list: [ZIMFriendApplicationInfo]) {
+        ZIMKitCore.shared.updateNewestFriendApplication(from: list)
+    }
 }

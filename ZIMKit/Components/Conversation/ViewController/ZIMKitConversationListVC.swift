@@ -7,8 +7,12 @@
 
 import UIKit
 import ZegoPluginAdapter
+import ZIM
+import Combine
 
 open class ZIMKitConversationListVC: _ViewController {
+    
+    var cancellables = Set<AnyCancellable>()
     
     @objc public weak var delegate: ZIMKitConversationListVCDelegate?
     @objc public weak var messageDelegate: ZIMKitMessagesListVCDelegate?
@@ -29,6 +33,7 @@ open class ZIMKitConversationListVC: _ViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ConversationCell.self, forCellReuseIdentifier: ConversationCell.reuseIdentifier)
+        tableView.register(ConversationApplicationCell.self, forCellReuseIdentifier: ConversationApplicationCell.reuseIdentifier)
         tableView.rowHeight = 74
         tableView.separatorStyle = .none
         tableView.delaysContentTouches = false
@@ -45,7 +50,14 @@ open class ZIMKitConversationListVC: _ViewController {
         super.setUpLayout()
         
         view.embed(tableView)
-        view.embed(noDataView)
+        view.addSubview(noDataView)
+        noDataView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            noDataView.topAnchor.constraint(equalTo: view.topAnchor, constant: 68), // 預留 index 0 高度
+            noDataView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            noDataView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            noDataView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
     open override func viewDidLoad() {
@@ -53,6 +65,8 @@ open class ZIMKitConversationListVC: _ViewController {
         configViewModel()
         LocalAPNS.shared.setupLocalAPNS()
         initCallConfig()
+        ZIMKitCore.shared.getNewestFriendApplication()
+        initBinding()
     }
     
     open override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +92,21 @@ open class ZIMKitConversationListVC: _ViewController {
     
     deinit {
         //        ZIMKit.disconnectUser()
+        cancellables.removeAll()
+    }
+    
+    private func initBinding() {
+        ZIMKitCore.shared.$newestFriendApplicationInfo
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] applicationInfo in
+                guard let self else { return }
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ConversationApplicationCell {
+                    cell.model = applicationInfo
+                    cell.updateUnreadStatus(isUnread: true)
+                }
+            }
+            .store(in: &cancellables)
     }
     
     func configViewModel() {
@@ -106,20 +135,27 @@ open class ZIMKitConversationListVC: _ViewController {
 extension ZIMKitConversationListVC: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.noDataView.isHidden = viewModel.conversations.count > 0
-        return viewModel.conversations.count
+        return viewModel.conversations.count + 1 // index 0 是 application cell
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ConversationCell.reuseIdentifier, for: indexPath)
-                as? ConversationCell else {
-            return ConversationCell()
+        if indexPath.row == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ConversationApplicationCell.reuseIdentifier, for: indexPath) as? ConversationApplicationCell else {
+                return ConversationApplicationCell()
+            }
+
+            return cell
         }
         
-        if indexPath.row >= viewModel.conversations.count {
+        let conversationIndex = indexPath.row - 1
+
+        guard conversationIndex < viewModel.conversations.count,
+              let cell = tableView.dequeueReusableCell(withIdentifier: ConversationCell.reuseIdentifier, for: indexPath) as? ConversationCell else {
             return ConversationCell()
         }
-        let conversation = viewModel.conversations[indexPath.row] as ZIMKitConversation
+
+        let conversation = viewModel.conversations[conversationIndex] as ZIMKitConversation
         cell.model = conversation
         return cell
     }
@@ -128,12 +164,16 @@ extension ZIMKitConversationListVC: UITableViewDataSource {
 extension ZIMKitConversationListVC: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row >= viewModel.conversations.count { return }
-        let model = viewModel.conversations[indexPath.row]
+        if indexPath.row == 0 {
+            delegate?.didTapFriendApplicationCell?(self)
+            return
+        }
+
+        let model = viewModel.conversations[indexPath.row - 1]
         
         let defaultAction = {
             let messageListVC = ZIMKitMessagesListVC(conversationID: model.id, type: model.type, conversationName: model.name)
-           messageListVC.delegate = self.messageDelegate
+            messageListVC.delegate = self.messageDelegate
             self.navigationController?.pushViewController(messageListVC, animated: true)
             // clear unread messages
             self.viewModel.clearConversationUnreadMessageCount(model.id, type: model.type)
@@ -146,13 +186,20 @@ extension ZIMKitConversationListVC: UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return indexPath.row != 0
     }
   
     public func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if indexPath.row >= viewModel.conversations.count { return nil }
-        
-        let conversation = viewModel.conversations[indexPath.row]
+        if indexPath.row == 0 {
+            return nil
+        }
+
+        let conversationIndex = indexPath.row - 1
+        guard conversationIndex < viewModel.conversations.count else {
+            return nil
+        }
+
+        let conversation = viewModel.conversations[conversationIndex]
         let deleteAction = UIContextualAction(style: .normal, title: L10n("conversation_delete")) { _, _, _ in
             self.viewModel.deleteConversation(conversation) { error in
                 if error.code != .ZIMErrorCodeSuccess {
@@ -213,7 +260,7 @@ extension ZIMKitConversationListVC: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let row = indexPath.row
-        let distance = viewModel.conversations.count - 5
+        let distance = viewModel.conversations.count - 5 + 1 // application cell
         if row == distance {
             loadMoreConversations()
         }
