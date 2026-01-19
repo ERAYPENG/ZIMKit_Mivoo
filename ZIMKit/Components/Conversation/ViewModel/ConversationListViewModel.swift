@@ -13,6 +13,10 @@ class ConversationListViewModel: NSObject {
     /// conversations of current user.
     @ZIMKitObservable var conversations: [ZIMKitConversation] = []
 
+    override init() {
+        super.init()
+        ZIMKit.registerZIMKitDelegate(self)
+    }
 }
 
 extension ConversationListViewModel {
@@ -43,5 +47,11 @@ extension ConversationListViewModel {
         ZIMKit.updateConversationPinnedState(for: conversation.id, type: conversation.type, isPinned: isPinned) { error in
           callback?(error)
         }
+    }
+}
+
+extension ConversationListViewModel: ZIMKitDelegate {
+    func onConversationListChanged(_ conversations: [ZIMKitConversation]) {
+        self.conversations = conversations
     }
 }

@@ -98,12 +98,11 @@ open class ZIMKitConversationListVC: _ViewController {
     private func initBinding() {
         ZIMKitCore.shared.$newestFriendApplicationInfo
             .receive(on: DispatchQueue.main)
-            .compactMap { $0 }
             .sink { [weak self] applicationInfo in
                 guard let self else { return }
                 if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ConversationApplicationCell {
                     cell.model = applicationInfo
-                    cell.updateUnreadStatus(isUnread: true)
+                    cell.updateUnreadStatus(isUnread: applicationInfo != nil)
                 }
             }
             .store(in: &cancellables)
@@ -225,7 +224,7 @@ extension ZIMKitConversationListVC: UITableViewDelegate {
                 }
             }
             conversation.isPinned = !conversation.isPinned
-            self.viewModel.conversations[indexPath.row] = conversation
+            self.viewModel.conversations[conversationIndex] = conversation
             if conversation.isPinned {
                 let currentIndexPath = IndexPath(row: self.getsTheLocationIndexOfCurrentMessage(messageInfo: conversation), section: 0)
                 tableView.moveRow(at: indexPath, to: currentIndexPath)

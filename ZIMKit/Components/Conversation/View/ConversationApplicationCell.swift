@@ -9,7 +9,7 @@ import Foundation
 import ZIM
 class ConversationApplicationCell: _TableViewCell {
     
-    static let reuseIdentifier = String(describing: ConversationCell.self)
+    static let reuseIdentifier = String(describing: ConversationApplicationCell.self)
     
     lazy var headImageView: UIImageView = {
         let imageView = UIImageView().withoutAutoresizingMaskConstraints

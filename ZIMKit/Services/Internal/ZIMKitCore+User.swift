@@ -172,7 +172,7 @@ extension ZIMKitCore {
     // 好友列表發生變化(更新或是加減)
     func updateNewestFriendApplication(from list: [ZIMFriendApplicationInfo]) {
         if let newest = list.first(where: {
-            $0.type == .received &&
+            ($0.type == .received || $0.type == .both) &&
             $0.state == .waiting
         }) {
             self.newestFriendApplicationInfo = newest
