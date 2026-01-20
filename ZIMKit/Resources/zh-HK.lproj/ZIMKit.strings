@@ -39,8 +39,9 @@
 "conversation_disconnected" = "未連線";
 "conversation_connecting" = "連線緊...";
 "conversation_application_noti" = "好友通知";
-"conersation_application_friend_invite" = "【朋友申請】";
-"conersation_application_description" = "%@申請加你做朋友";
+"conversation_application_friend_invite" = "【朋友申請】";
+"conversation_application_description" = "%@申請加你做朋友";
+"conversation_application_empty" = "冇新嘅好友邀請";
 
 "message_input_new_message" = "輸入新消息";
 "message_user_not_exit_please_again" = "用戶ID:%@不存在，請返回重新添加";

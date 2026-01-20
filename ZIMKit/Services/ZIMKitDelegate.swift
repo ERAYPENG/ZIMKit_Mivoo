@@ -60,10 +60,4 @@ import ZIM
   
     @objc optional
     func onMessageReactionsChanged(_ reactions: [ZIMMessageReaction])
-    
-    @objc optional
-    func onFriendListChanged(friendListChanged friendInfoList: [ZIMFriendInfo], action: ZIMFriendListChangeAction)
-
-    @objc optional
-    func onFriendApplicationListChanged(friendApplicationUpdated friendApplicationInfoList: [ZIMFriendApplicationInfo])
 }

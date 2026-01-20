@@ -144,13 +144,16 @@ class ConversationApplicationCell: _TableViewCell {
     override func updateContent() {
         super.updateContent()
         
-        guard let model = model else { return }
+        guard let model = model else {
+            subTitleLabel.text = L10n("conversation_application_empty")
+            return
+        }
         // update time
         timeLabel.text = timestampToConversationDateStr(UInt64(model.createTime))
         
         // update subtitle
-        let title = L10n("conersation_application_friend_invite")
-        let description = L10n("conersation_application_description", model.applyUser.userName)
+        let title = L10n("conversation_application_friend_invite")
+        let description = L10n("conversation_application_description", model.applyUser.userName)
 
         let attributedText = NSMutableAttributedString(
             string: title,

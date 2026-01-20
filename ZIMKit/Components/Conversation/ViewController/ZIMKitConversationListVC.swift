@@ -17,6 +17,8 @@ open class ZIMKitConversationListVC: _ViewController {
     @objc public weak var delegate: ZIMKitConversationListVCDelegate?
     @objc public weak var messageDelegate: ZIMKitMessagesListVCDelegate?
     
+    private var friendAppTimer: Timer?
+    
     lazy var viewModel = ConversationListViewModel()
     
     lazy var noDataView: ConversationNoDataView = {
@@ -65,17 +67,18 @@ open class ZIMKitConversationListVC: _ViewController {
         configViewModel()
         LocalAPNS.shared.setupLocalAPNS()
         initCallConfig()
-        ZIMKitCore.shared.getNewestFriendApplication()
         initBinding()
     }
     
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        startPollingFriendApplications()
         getConversationList()
     }
     
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        stopPollingFriendApplications()
     }
     
     func initCallConfig() {
@@ -128,6 +131,25 @@ open class ZIMKitConversationListVC: _ViewController {
     
     func loadMoreConversations() {
         viewModel.loadMoreConversations()
+    }
+    
+    private func startPollingFriendApplications() {
+        stopPollingFriendApplications()
+
+        friendAppTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
+            self?.pollFriendApplications()
+        }
+
+        RunLoop.main.add(friendAppTimer!, forMode: .common)
+    }
+
+    private func stopPollingFriendApplications() {
+        friendAppTimer?.invalidate()
+        friendAppTimer = nil
+    }
+    
+    private func pollFriendApplications() {
+        ZIMKitCore.shared.getNewestFriendApplication()
     }
 }
 

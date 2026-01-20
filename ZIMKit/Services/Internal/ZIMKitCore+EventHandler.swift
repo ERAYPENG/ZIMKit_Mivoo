@@ -117,22 +117,4 @@ extension ZIMKitCore: ZIMEventHandler {
             delegate.onMessageReactionsChanged?(reactions)
         }
     }
-    
-    func zim(_ zim: ZIM, friendListChanged friendInfoList: [ZIMFriendInfo], action: ZIMFriendListChangeAction) {
-        for delegate in delegates.allObjects {
-            delegate.onFriendListChanged?(friendListChanged: friendInfoList, action: action)
-        }
-    }
-    
-    func zim(_ zim: ZIM, friendApplicationUpdated friendApplicationInfoList: [ZIMFriendApplicationInfo]) {
-        for delegate in delegates.allObjects {
-            delegate.onFriendApplicationListChanged?(friendApplicationUpdated: friendApplicationInfoList)
-        }
-    }
-    
-    func zim(_ zim: ZIM, friendApplicationListChanged friendApplicationInfoList: [ZIMFriendApplicationInfo], action: ZIMFriendApplicationListChangeAction) {
-        for delegate in delegates.allObjects {
-            delegate.onFriendApplicationListChanged?(friendApplicationUpdated: friendApplicationInfoList)
-        }
-    }
 }

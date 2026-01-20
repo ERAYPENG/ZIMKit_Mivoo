@@ -39,8 +39,9 @@
 "conversation_disconnected" = "未连接";
 "conversation_connecting" = "连接中...";
 "conversation_application_noti" = "好友通知";
-"conersation_application_friend_invite" = "【好友申请】";
-"conersation_application_description" = "%@申请添加你为好友";
+"conversation_application_friend_invite" = "【好友申请】";
+"conversation_application_description" = "%@申请添加你为好友";
+"conversation_application_empty" = "没有新的好友邀请";
 
 "message_input_new_message" = "输入新消息";
 "message_user_not_exit_please_again" = "用户ID:%@不存在，请返回重新添加";
