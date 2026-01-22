@@ -703,4 +703,84 @@ extension ZIMKitCore {
         }
         return zimMessage
     }
+    
+    func sendShareCardMessage(to conversationID: String,
+                              type: ZIMConversationType,
+                              conversationName: String = "",
+                              shareCardContent: ShareCardMessageContent,
+                              callback: MessageSentCallback? = nil) {
+
+        let customMessage = ZIMCustomMessage()
+        
+        let shareCardDict: [String: Any] = [
+            "shopId": shareCardContent.shopId,
+            "cardId": shareCardContent.cardId,
+            "shareUserId": shareCardContent.shareUserId,
+            "name": shareCardContent.name,
+            "cardUrl": shareCardContent.cardUrl,
+            "level": shareCardContent.level,
+            "zodiacSign": shareCardContent.zodiacSign,
+            "price": shareCardContent.price
+        ]
+        
+        var shareCardJSONString = ""
+        if let shareCardData = try? JSONSerialization.data(withJSONObject: shareCardDict, options: []),
+           let jsonStr = String(data: shareCardData, encoding: .utf8) {
+            shareCardJSONString = jsonStr
+        }
+
+        let extendedDict: [String: Any] = [
+            "subType": CustomMessageSubType.shareCard.rawValue,
+            "shareCard": shareCardJSONString
+        ]
+
+        if let data = try? JSONSerialization.data(withJSONObject: extendedDict, options: []),
+           let jsonStr = String(data: data, encoding: .utf8) {
+            customMessage.extendedData = jsonStr
+        }
+
+        customMessage.message = L10n("share_card")
+
+        var kitMessage = ZIMKitMessage(with: customMessage)
+        kitMessage.info.senderUserName = localUser?.name
+        kitMessage.info.senderUserAvatarUrl = localUser?.avatarUrl
+
+        for delegate in delegates.allObjects {
+            if let method = delegate.onMessagePreSending {
+                guard let msg = method(kitMessage) else { return }
+                kitMessage = msg
+            }
+        }
+
+        let config = ZIMMessageSendConfig()
+        let pushConfig = ZIMPushConfig()
+        pushConfig.title = conversationName.isEmpty ? (localUser?.name ?? "") : conversationName
+        pushConfig.content = L10n("share_card")
+        config.pushConfig = pushConfig
+
+        let notification = ZIMMessageSendNotification()
+        notification.onMessageAttached = { msg in
+            if msg.sentStatus != .sendFailed {
+                let message = ZIMKitMessage(with: msg)
+                self.messageList.add([message])
+                for delegate in self.delegates.allObjects {
+                    delegate.onMessageSentStatusChanged?(message)
+                }
+            }
+        }
+
+        zim?.sendMessage(customMessage,
+                         toConversationID: conversationID,
+                         conversationType: type,
+                         config: config,
+                         notification: notification,
+                         callback: { msg, error in
+            let message = self.messageList.get(with: msg)
+            message.update(with: msg)
+            for delegate in self.delegates.allObjects {
+                delegate.onMessageSentStatusChanged?(message)
+            }
+            callback?(error)
+        })
+    }
 }

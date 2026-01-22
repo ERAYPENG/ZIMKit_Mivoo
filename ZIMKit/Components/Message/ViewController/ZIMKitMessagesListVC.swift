@@ -76,6 +76,7 @@ open class ZIMKitMessagesListVC: _ViewController {
         tableView.register(CombineMessageCell.self, forCellReuseIdentifier: CombineMessageCell.reuseId)
         tableView.register(TipsMessageCell.self, forCellReuseIdentifier: TipsMessageCell.reuseId)
         tableView.register(ReplyMessageCell.self, forCellReuseIdentifier: ReplyMessageCell.reuseId)
+        tableView.register(ShareCardMessageCell.self, forCellReuseIdentifier: ShareCardMessageCell.reuseId)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tap(_:)))
         tableView.addGestureRecognizer(tap)
@@ -901,7 +902,8 @@ extension ZIMKitMessagesListVC: ImageMessageCellDelegate,
                                 VideoMessageCellDelegate,
                                 FileMessageDelegate,
                                 CombineMessageCellDelegate,
-                                ReplyMessageCellDelegate {
+                                ReplyMessageCellDelegate,
+                                ShareCardMessageCellDelegate {
     
     func imageMessageCell(_ cell: ImageMessageCell, didClickImageWith messageVM: ImageMessageViewModel) {
         if chatBar.status == .select {return}
@@ -1000,6 +1002,10 @@ extension ZIMKitMessagesListVC: ImageMessageCellDelegate,
         } else {
             print("⚠️Audio File not exist: \(message.message.audioContent.fileLocalPath)")
         }
+    }
+    
+    func shareCardMessageCell(_ cell: ShareCardMessageCell, didTapWith cardConent: ShareCardMessageContent) {
+        delegate?.shareCardMessageCell?(didTapWith: cardConent)
     }
 }
 

@@ -311,4 +311,16 @@ extension ZIMKit {
         systemMsg.info.conversationID = conversationID
         ZIMKitCore.shared.insertMessageToLocalDB(systemMsg, from: "", to: conversationID, type: groupConversationType ? .group : .peer, callback: callback)
     }
+    
+    @objc public static func sendShareCardMessage(_ shareCardContent: ShareCardMessageContent,
+                                                  to conversationID: String,
+                                                  type: ZIMConversationType,
+                                                  conversationName: String = "",
+                                                  callback: MessageSentCallback? = nil) {
+        ZIMKitCore.shared.sendShareCardMessage(to: conversationID,
+                                               type: type,
+                                               conversationName: conversationName,
+                                               shareCardContent: shareCardContent,
+                                               callback: callback)
+    }
 }

@@ -39,10 +39,6 @@ extension ZIMKitMessage {
             systemContent.content = zim.message
         }
         
-        if let zim = zim as? ZIMCustomMessage {
-            systemContent.content = zim.message
-        }
-        
         func f<T: Empty>(_ left: T, _ right: T) -> T.T {
             if right.isEmpty {
                 return left.itself
@@ -102,6 +98,37 @@ extension ZIMKitMessage {
       
         if (zim.repliedInfo != nil) {
           replyMessage = zim.repliedInfo!.messageInfo
+        }
+        
+        if zim.type == .custom {
+            let extended = zim.extendedData
+            guard let data = extended.data(using: .utf8),
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let subTypeRaw = json["subType"] as? Int,
+                  let subType = CustomMessageSubType(rawValue: subTypeRaw) else {
+                return
+            }
+            switch subType {
+            case .shareCard:
+                if let shareCardStr = json["shareCard"] as? String,
+                   let shareCardData = shareCardStr.data(using: .utf8),
+                   let shareCardDict = try? JSONSerialization.jsonObject(with: shareCardData) as? [String: Any] {
+                    
+                    shareCardContent.shopId = shareCardDict["shopId"] as? Int ?? 0
+                    shareCardContent.cardId = shareCardDict["cardId"] as? Int ?? 0
+                    shareCardContent.shareUserId = shareCardDict["shareUserId"] as? Int ?? 0
+                    shareCardContent.name = shareCardDict["name"] as? String ?? ""
+                    shareCardContent.cardUrl = shareCardDict["cardUrl"] as? String ?? ""
+                    shareCardContent.level = shareCardDict["level"] as? Int ?? 0
+                    shareCardContent.zodiacSign = shareCardDict["zodiacSign"] as? Int ?? 0
+                    shareCardContent.price = shareCardDict["price"] as? Int ?? 0
+                } else {
+                    print("❌ shareCard 欄位解析失敗，內容：\(json["shareCard"] ?? "nil")")
+                }
+
+            default:
+                break
+            }
         }
     }
     

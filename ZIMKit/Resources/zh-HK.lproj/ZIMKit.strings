@@ -98,6 +98,7 @@
 "message_video_play_error" = "無法播放此影片";
 "message_title_chat" = "聊天";
 "message_title_group_chat" = "群聊";
+"message_from_card" = "来自卡片信息";
 
 "group_user_id_cant_null" = "用戶 id 唔可以為空";
 "group_group_id_not_exit" = "群 ID %@ 唔存在，請返回";
@@ -166,3 +167,18 @@
 "call_user_not_exist" = "ID 唔存在，請輸入正確 ID";
 "user_not_exist" = "用戶 ID 唔存在，請返回";
 "delete_friend" = "刪除好友";
+
+"aries_full" = "白羊座";
+"taurus_full" = "金牛座";
+"gemini_full" = "雙子座";
+"cancer_full" = "巨蟹座";
+"leo_full" = "獅子座";
+"virgo_full" = "處女座";
+"libra_full" = "天秤座";
+"scorpio_full" = "天蠍座";
+"sagittarius_full" = "射手座";
+"capricorn_full" = "魔羯座";
+"aquarius_full" = "水瓶座";
+"pisces_full" = "雙魚座";
+
+"share_card" = "[卡片分享]";

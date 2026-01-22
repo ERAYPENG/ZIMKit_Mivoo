@@ -97,6 +97,7 @@
 "message_video_play_error" = "Unable to play this video.";
 "message_title_chat" = "Chat";
 "message_title_group_chat" = "Group chat";
+"message_from_card" = "Information from the card";
 
 "group_user_id_cant_null" = "User ID is required.";
 "group_group_id_not_exit" = "The group doesn't exist. Please try again.";
@@ -166,3 +167,18 @@
 "call_user_not_exist" = "The ID does not exist. Please enter the correct ID";
 "user_not_exist" = "User ID does not exist, please return";
 "delete_friend" = "Delete Friend";
+
+"aries_full" = "Aries";
+"taurus_full" = "Taurus";
+"gemini_full" = "Gemini";
+"cancer_full" = "Cancer";
+"leo_full" = "Leo";
+"virgo_full" = "Virgo";
+"libra_full" = "Libra";
+"scorpio_full" = "Scorpio";
+"sagittarius_full" = "Sagittarius";
+"capricorn_full" = "Capricorn";
+"aquarius_full" = "Aquarius";
+"pisces_full" = "Pisces";
+
+"share_card" = "[Share card]";

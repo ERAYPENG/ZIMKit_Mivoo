@@ -59,6 +59,13 @@ class MessageViewModel: Equatable {
             return CombineMessageCell.reuseId
         case .tips:
             return TipsMessageCell.reuseId
+        case .custom:
+            switch message.shareCardContent.subType {
+            case .shareCard:
+                return ShareCardMessageCell.reuseId
+            default:
+                return CustomerMessageCell.reuseId
+            }
         default:
             return UnknownMessageCell.reuseId
         }

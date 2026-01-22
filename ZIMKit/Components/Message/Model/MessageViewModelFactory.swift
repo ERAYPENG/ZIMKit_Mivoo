@@ -8,6 +8,11 @@
 import Foundation
 import ZIM
 
+@objc public enum CustomMessageSubType: Int {
+    case unknown = 0
+    case shareCard = 1
+}
+
 class MessageViewModelFactory {
     static func createMessage(with msg: ZIMKitMessage) -> MessageViewModel {
         
@@ -31,10 +36,21 @@ class MessageViewModelFactory {
             return CombineMessageViewModel(with: msg)
         case .tips:
             return TipsMessageViewModel(with: msg)
-        case .custom, .system:
+        case .custom:
+            return createCustomMessage(with: msg)
+        case .system:
             return CustomerMessageViewModel(with: msg)
         default:
             return UnknownMessageViewModel(with: msg)
+        }
+    }
+    
+    private static func createCustomMessage(with msg: ZIMKitMessage) -> MessageViewModel {
+        switch msg.shareCardContent.subType {
+        case .shareCard:
+            return ShareCardMessageViewModel(with: msg)
+        default:
+            return CustomerMessageViewModel(with: msg)
         }
     }
     

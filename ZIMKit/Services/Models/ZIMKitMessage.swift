@@ -93,6 +93,19 @@ public class VideoMessageContent: NSObject {
     @objc public var downloadProgress: MediaTransferProgress = .default
 }
 
+public class ShareCardMessageContent: NSObject {
+    @objc public let subType: CustomMessageSubType = .shareCard
+
+    @objc public var shopId: Int = 0
+    @objc public var cardId: Int = 0
+    @objc public var shareUserId: Int = 0
+    @objc public var name: String = ""
+    @objc public var cardUrl: String = ""
+    @objc public var level: Int = 0
+    @objc public var zodiacSign: Int = 0
+    @objc public var price: Int = 0
+}
+
 public class FileMessageContent: NSObject {
     @objc public var fileLocalPath: String = ""
     @objc public var fileDownloadUrl: String = ""
@@ -116,6 +129,7 @@ final public class ZIMKitMessage: NSObject {
     @objc public let audioContent: AudioMessageContent = .init()
     @objc public let videoContent: VideoMessageContent = .init()
     @objc public let fileContent: FileMessageContent = .init()
+    @objc public let shareCardContent: ShareCardMessageContent  = .init()
     @objc public var revokeExtendedData :String = ""
     @objc public var replyMessage :ZIMMessageLiteInfo?
     @objc public var reactions = [ZIMMessageReaction]()
