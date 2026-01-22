@@ -176,6 +176,8 @@ extension ZIMKitCore {
             $0.state == .waiting
         }) {
             self.newestFriendApplicationInfo = newest
+        } else {
+            self.newestFriendApplicationInfo = nil
         }
     }
 }

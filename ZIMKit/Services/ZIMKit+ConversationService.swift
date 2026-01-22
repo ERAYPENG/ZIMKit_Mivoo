@@ -51,12 +51,4 @@ extension ZIMKit {
                                                              callback: QueryConversationQueriedCallback? = nil) {
         ZIMKitCore.shared.queryConversation(conversationID: conversationID, type: type, callback: callback)
     }
-  
-//    @objc public static func updateConversations(with changeInfoList: [ZIMConversationChangeInfo]) {
-//        ZIMKitCore.shared.updateConversations(with: changeInfoList)
-//    }
-//    
-//    @objc public static func updateNewestFriendApplication(from list: [ZIMFriendApplicationInfo]) {
-//        ZIMKitCore.shared.updateNewestFriendApplication(from: list)
-//    }
 }

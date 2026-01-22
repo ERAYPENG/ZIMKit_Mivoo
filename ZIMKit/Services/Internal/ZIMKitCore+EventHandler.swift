@@ -8,7 +8,7 @@
 import Foundation
 import ZIM
 
-extension ZIMKitCore: ZIMEventHandler {
+extension ZIMKitCore {
     
     // MARK: - User
     func zim(_ zim: ZIM, connectionStateChanged state: ZIMConnectionState, event: ZIMConnectionEvent, extendedData: [AnyHashable : Any]) {

@@ -10,7 +10,6 @@ import UIKit
 protocol messageConversationUpdateDelegate: AnyObject {
     func messagePinned(isPinned: Bool)
     func messageNotDisturb(isDisturb: Bool)
-    
 }
 
 class ZIMKitSingleDetailChatVC: _ViewController {
@@ -26,7 +25,7 @@ class ZIMKitSingleDetailChatVC: _ViewController {
     
     lazy var userInfoView: UIView = {
         let view = UIView().withoutAutoresizingMaskConstraints
-        view.backgroundColor = .zim_backgroundWhite
+        view.backgroundColor = .mivoo_backgroundDarkBlue2
         view.layer.cornerRadius = 8.0
         view.layer.masksToBounds = true
         return view
@@ -34,7 +33,7 @@ class ZIMKitSingleDetailChatVC: _ViewController {
     
     lazy var contentItemView: UIView = {
         let view = UIView().withoutAutoresizingMaskConstraints
-        view.backgroundColor = .zim_backgroundWhite
+        view.backgroundColor = .mivoo_backgroundDarkBlue2
         view.layer.cornerRadius = 8.0
         view.layer.masksToBounds = true
         return view
@@ -42,7 +41,7 @@ class ZIMKitSingleDetailChatVC: _ViewController {
     
     lazy var userAvatarView: UIImageView = {
         let view = UIImageView().withoutAutoresizingMaskConstraints
-        view.backgroundColor = .zim_backgroundWhite
+        view.backgroundColor = .mivoo_backgroundDarkBlue2
         view.layer.cornerRadius = 9.8
         view.layer.masksToBounds = true
         view.loadImage(with: conversation.avatarUrl, placeholder: "avatar_default")
@@ -52,14 +51,14 @@ class ZIMKitSingleDetailChatVC: _ViewController {
     lazy var userNameLB: UILabel = {
         let label = UILabel().withoutAutoresizingMaskConstraints
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        label.textColor = .zim_textBlack1
+        label.textColor = .zim_textWhite
         label.text = conversation.name
         return label
     }()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.backgroundColor = .zim_backgroundWhite
+        navigationController?.navigationBar.backgroundColor = .mivoo_backgroundDarkBlue1
     }
     
     override func viewDidLoad() {
@@ -82,7 +81,7 @@ class ZIMKitSingleDetailChatVC: _ViewController {
     }
     
     func setUpUI() {
-        view.backgroundColor = .zim_backgroundGray5
+        view.backgroundColor = .mivoo_backgroundDarkBlue1
         navigationItem.title = L10n("conversation_chat_setting")
         
         let leftButton = UIButton(type: .custom)
@@ -152,7 +151,7 @@ class ZIMKitSingleDetailChatVC: _ViewController {
         
         let label = UILabel().withoutAutoresizingMaskConstraints
         label.font = UIFont.systemFont(ofSize: 15)
-        label.textColor = .zim_textBlack1
+        label.textColor = .zim_textWhite
         label.text = title
         
         view.addSubview(label)

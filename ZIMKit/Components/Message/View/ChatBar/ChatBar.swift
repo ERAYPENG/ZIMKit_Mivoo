@@ -464,9 +464,9 @@ class ChatBar: _View {
     
     func replyMessage(fromUserName:String,content:String,originMessage: ZIMKitMessage) {
         replyMessage = originMessage
-        chatTextView.replyingMessage = true
+//        chatTextView.replyingMessage = true
         updateTextViewLayout()
-        chatTextView.didBeginReplyMessage(fromUserName: fromUserName, content: content)
+//        chatTextView.didBeginReplyMessage(fromUserName: fromUserName, content: content)
         chatTextView.layoutSubviews()
     }
     
@@ -530,7 +530,7 @@ extension ChatBar {
     
     func replyMessageEnd() {
         replyMessage = nil
-        chatTextView.cancelReplyState()
+//        chatTextView.cancelReplyState()
         clearTextViewInput()
     }
 }
@@ -729,7 +729,7 @@ extension ChatBar: TextViewDelegate {
 extension ChatBar: TextViewCancelReplyMessageDelegate {
     func chatTextCancelReplyMessage() {
         replyMessage = nil
-        chatTextView.replyingMessage = false
+//        chatTextView.replyingMessage = false
         updateTextViewLayout()
         chatTextView.layoutSubviews()
     }
@@ -796,7 +796,7 @@ extension ChatBar: textViewToolBarDelegate {
     
     func didClickFullScreenEnter() {
         status = .normal
-        delegate?.chatBarDidClickFullScreenEnterButton(content: chatTextView.textView.text,replyContent: self.replyMessage != nil ? chatTextView.replyBriefView.replyBriefLabel.text : "",cursorPosition: chatTextView.textView.selectedRange.location)
+//        delegate?.chatBarDidClickFullScreenEnterButton(content: chatTextView.textView.text,replyContent: self.replyMessage != nil ? chatTextView.replyBriefView.replyBriefLabel.text : "",cursorPosition: chatTextView.textView.selectedRange.location)
     }
 }
 

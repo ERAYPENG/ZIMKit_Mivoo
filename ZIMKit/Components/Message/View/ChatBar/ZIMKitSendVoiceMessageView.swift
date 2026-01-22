@@ -98,7 +98,7 @@ class ZIMKitSendVoiceMessageView: UIView {
     var topConstraint: NSLayoutConstraint?
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .zim_backgroundGray2
+        backgroundColor = .mivoo_backgroundDarkBlue1
         setupSubViews()
         setupLayoutConstraint()
         recorder.delegate = self

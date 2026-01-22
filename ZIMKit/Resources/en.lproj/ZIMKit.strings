@@ -42,6 +42,7 @@
 "conversation_application_friend_invite" = "[Friend Request]";
 "conversation_application_description" = "%@ has sent you a friend request";
 "conversation_application_empty" = "No new friend requests";
+"conversation_wait_login" = "Logging in, please wait…";
 
 "message_user_not_exit_please_again" = "The user ID (%@) doesn't exist. Please try again.";
 "message_cant_send_empty_msg" = "Blank messages are not allowed";
@@ -164,3 +165,4 @@
 "history_message_no_support_reaction" = "Historical messages are not supported reaction";
 "call_user_not_exist" = "The ID does not exist. Please enter the correct ID";
 "user_not_exist" = "User ID does not exist, please return";
+"delete_friend" = "Delete Friend";

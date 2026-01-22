@@ -34,7 +34,7 @@ class DefaultEmojiCollectionView: _CollectionViewCell {
             frame: bounds,
             collectionViewLayout: flowLayout)
             .withoutAutoresizingMaskConstraints
-        collectionView.backgroundColor = .zim_backgroundGray2
+        collectionView.backgroundColor = .mivoo_backgroundDarkBlue1
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.bounces = true
@@ -48,7 +48,7 @@ class DefaultEmojiCollectionView: _CollectionViewCell {
 
     lazy var buttonBackgroundView: UIView = {
         let view = UIView().withoutAutoresizingMaskConstraints
-        view.backgroundColor = .zim_backgroundGray2.withAlphaComponent(0.95)
+        view.backgroundColor = .mivoo_backgroundDarkBlue1.withAlphaComponent(0.95)
         return view
     }()
 

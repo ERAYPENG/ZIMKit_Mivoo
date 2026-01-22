@@ -23,6 +23,8 @@ open class ZIMKitMessagesListVC: _ViewController {
     private var conversation: ZIMKitConversation?
     var firstHistoryMessageViewModel: MessageViewModel?
     
+    private var didLoadMessages = false
+    
     /// Create a session page VC first, then you can create a session page by pushing or presenting the VC.
     /// - Parameters:
     ///   - conversationID: session ID.
@@ -234,7 +236,8 @@ open class ZIMKitMessagesListVC: _ViewController {
         // Fixed the conflict between the edge-swipe gesture and the scrolling gesture of UITableView
         setupInteractivePopGesture()
         
-        if (isMovingToParent) {
+        if !didLoadMessages {
+            didLoadMessages = true
             getMessageList()
         }
     }
@@ -254,6 +257,18 @@ open class ZIMKitMessagesListVC: _ViewController {
         super.viewDidDisappear(animated)
         audioPlayer.stop()
         chatBar.resignFirstResponder()
+    }
+    
+    open func handleMoreDidTapped() {
+        if conversationType == .group {
+            let groupDetailVC = GroupDetailVC(conversation: conversation!)
+            groupDetailVC.delegate = self
+            self.navigationController?.pushViewController(groupDetailVC, animated: true)
+        } else {
+            let singleChatDetailVC = ZIMKitSingleDetailChatVC(conversation: conversation!,messageCount: viewModel.messageViewModels.count)
+            singleChatDetailVC.delegate = self
+            self.navigationController?.pushViewController(singleChatDetailVC, animated: true)
+        }
     }
 
     //MARK: Customer
@@ -938,7 +953,7 @@ extension ZIMKitMessagesListVC: ImageMessageCellDelegate,
     func messageCell(_ cell: MessageCell, longPressWith message: MessageViewModel) {
         if chatBar.status == .select {return}
         chatBar.resignFirstResponder()
-        showOptionsView(cell, message)
+//        showOptionsView(cell, message)
     }
     
     func onClickEmojiReaction(_ cell: MessageCell, emoji: String) {

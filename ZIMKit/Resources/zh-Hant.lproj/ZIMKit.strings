@@ -42,6 +42,7 @@
 "conversation_application_friend_invite" = "【好友申請】";
 "conversation_application_description" = "%@申請添加你為好友";
 "conversation_application_empty" = "沒有新的好友邀請";
+"conversation_wait_login" = "登入中，請稍候";
 
 "message_input_new_message" = "輸入新訊息";
 "message_user_not_exit_please_again" = "用戶ID:%@不存在，請返回重新添加";
@@ -164,3 +165,4 @@
 "history_message_no_support_reaction" = "歷史訊息不支援表態回覆";
 "call_user_not_exist" = "ID 不存在，請輸入正確 ID";
 "user_not_exist" = "使用者 ID 不存在，請返回";
+"delete_friend" = "刪除好友";

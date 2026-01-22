@@ -35,7 +35,6 @@ class ZIMKitCore: NSObject {
 
         ZegoUIKitSignalingPlugin.shared.initWith(appID: appID, appSign: appSign)
         zim = ZIM.shared()
-        ZegoUIKitSignalingPlugin.shared.registerZIMEventHandler(self)
         if config != nil {
             self.config = config
             self.config!.appID = appID

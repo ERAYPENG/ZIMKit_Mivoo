@@ -34,6 +34,7 @@ class FaceManagerView: _View {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.bounces = true
         collectionView.isPagingEnabled = true
+        collectionView.backgroundColor = .mivoo_backgroundDarkBlue1
         collectionView.register(DefaultEmojiCollectionView.self,
                                 forCellWithReuseIdentifier: DefaultEmojiCollectionView.reuseIdentifier)
         return collectionView
