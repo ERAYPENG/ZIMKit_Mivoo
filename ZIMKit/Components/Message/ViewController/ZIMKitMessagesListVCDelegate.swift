@@ -18,5 +18,5 @@ import Foundation
     func messageListViewWillDisappear()
     
     @objc optional
-    func shareCardMessageCell(didTapWith message: ShareCardMessageContent)
+    func shareCardMessageCell(didTapWith cardContent: ShareCardMessageContent)
 }

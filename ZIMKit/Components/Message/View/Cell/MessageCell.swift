@@ -29,7 +29,7 @@ class MessageCell: _TableViewCell {
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView().withoutAutoresizingMaskConstraints
         imageView.contentMode = .scaleAspectFill
-        imageView.image = loadImageSafely(with: "avatar_default")
+        imageView.image = loadImageSafely(with: "empty_profile")
         imageView.layer.cornerRadius = 24
         imageView.layer.masksToBounds = true
         return imageView
@@ -353,7 +353,7 @@ class MessageCell: _TableViewCell {
         if message.info.senderUserAvatarUrl?.count ?? 0 <= 0 {
             return
         }
-        avatarImageView.loadImage(with: message.info.senderUserAvatarUrl, placeholder: "avatar_default")
+        avatarImageView.loadImage(with: message.info.senderUserAvatarUrl, placeholder: "empty_profile")
         
         nameLabel.isHidden = !messageVM.isShowName
         if messageVM.isShowName {

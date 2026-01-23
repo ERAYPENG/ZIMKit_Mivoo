@@ -177,6 +177,7 @@ extension ZIMKitConversationListVC: UITableViewDelegate {
             defaultAction()
         } else {
             delegate?.conversationList?(self, didSelectWith: model, defaultAction: defaultAction)
+            self.viewModel.clearConversationUnreadMessageCount(model.id, type: model.type)
         }
     }
     

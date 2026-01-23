@@ -212,7 +212,7 @@ class ZIMKitMultipleForwardConfirmView: UIView {
         
         userNameLabel.text = conversation?.name
         let avatarUrl = conversation?.avatarUrl ?? ""
-        var placeHolder = "avatar_default"
+        var placeHolder = "empty_profile"
         if conversation?.type == .group {
             placeHolder = "groupAvatar_default"
         }

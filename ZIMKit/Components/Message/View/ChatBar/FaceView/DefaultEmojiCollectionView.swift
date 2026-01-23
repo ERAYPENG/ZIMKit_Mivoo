@@ -46,40 +46,6 @@ class DefaultEmojiCollectionView: _CollectionViewCell {
         return collectionView
     }()
 
-    lazy var buttonBackgroundView: UIView = {
-        let view = UIView().withoutAutoresizingMaskConstraints
-        view.backgroundColor = .mivoo_backgroundDarkBlue1.withAlphaComponent(0.95)
-        return view
-    }()
-
-    lazy var deleteButton: UIButton = {
-        let button = UIButton(type: .custom).withoutAutoresizingMaskConstraints
-        button.layer.cornerRadius = 4.0
-        button.layer.masksToBounds = true
-        button.setImage(loadImageSafely(with: "chat_face_delete"), for: .normal)
-        button.setImage(loadImageSafely(with: "chat_face_delete_disabled"), for: .disabled)
-        button.addTarget(self, action: #selector(deleteButtonClick(_:)), for: .touchUpInside)
-        button.backgroundColor = .zim_textWhite
-        button.isEnabled = false
-        return button
-    }()
-
-    lazy var sendButton: UIButton = {
-        let button = UIButton(type: .custom).withoutAutoresizingMaskConstraints
-        button.layer.cornerRadius = 4.0
-        button.layer.masksToBounds = true
-        button.setTitleColor(.zim_textWhite, for: .normal)
-        button.setTitleColor(.zim_textGray3, for: .disabled)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
-        button.titleLabel?.textAlignment = .center
-        button.setTitle(L10n("message_send"), for: .normal)
-        button.addTarget(self, action: #selector(sendButtonClick(_:)), for: .touchUpInside)
-        button.setBackgroundImage(UIImage.image(with: .zim_backgroundBlue1), for: .normal)
-        button.setBackgroundImage(UIImage.image(with: .zim_backgroundWhite), for: .disabled)
-        button.isEnabled = false
-        return button
-    }()
-
     lazy var emojiList: [String] = ZIMKit().imKitConfig.bottomConfig.emojis
 
     var buttonBackgroundHeightConstraint: NSLayoutConstraint!
@@ -93,39 +59,8 @@ class DefaultEmojiCollectionView: _CollectionViewCell {
         super.setUpLayout()
 
         contentView.addSubview(collectionView)
-        contentView.addSubview(buttonBackgroundView)
-        buttonBackgroundView.addSubview(deleteButton)
-        buttonBackgroundView.addSubview(sendButton)
 
         collectionView.pin(to: self)
-
-        buttonBackgroundView.pin(anchors: [.trailing, .bottom], to: self)
-        buttonBackgroundView
-            .widthAnchor.pin(
-                equalToConstant: bounds.width * 3.0 / 7.0)
-            .isActive = true
-        buttonBackgroundHeightConstraint = buttonBackgroundView
-            .heightAnchor.pin(
-                equalToConstant: 98+safeAreaInsets.bottom)
-        buttonBackgroundHeightConstraint.isActive = true
-
-        NSLayoutConstraint.activate([
-            sendButton.topAnchor.pin(
-                equalTo: buttonBackgroundView.topAnchor,
-                constant: 28),
-            sendButton.trailingAnchor.pin(
-                equalTo: buttonBackgroundView.trailingAnchor,
-                constant: -16),
-            sendButton.widthAnchor.pin(equalToConstant: 54),
-            sendButton.heightAnchor.pin(equalToConstant: 42)
-        ])
-
-        deleteButton.pin(anchors: [.top, .width, .height], to: sendButton)
-        deleteButton
-            .trailingAnchor.pin(
-                equalTo: sendButton.leadingAnchor,
-                constant: -12)
-            .isActive = true
     }
 
     override func safeAreaInsetsDidChange() {

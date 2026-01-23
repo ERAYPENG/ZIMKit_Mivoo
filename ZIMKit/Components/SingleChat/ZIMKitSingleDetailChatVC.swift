@@ -42,9 +42,9 @@ class ZIMKitSingleDetailChatVC: _ViewController {
     lazy var userAvatarView: UIImageView = {
         let view = UIImageView().withoutAutoresizingMaskConstraints
         view.backgroundColor = .mivoo_backgroundDarkBlue2
-        view.layer.cornerRadius = 9.8
+        view.layer.cornerRadius = 24
         view.layer.masksToBounds = true
-        view.loadImage(with: conversation.avatarUrl, placeholder: "avatar_default")
+        view.loadImage(with: conversation.avatarUrl, placeholder: "empty_profile")
         return view
     }()
     
@@ -74,7 +74,7 @@ class ZIMKitSingleDetailChatVC: _ViewController {
         ZIMKit.queryUserInfo(by: self.conversation.id) {[weak self] userInfo, error in
             guard let self = self else { return }
             if error.code == .ZIMErrorCodeSuccess {
-                self.userAvatarView.loadImage(with: userInfo?.avatarUrl, placeholder: "avatar_default")
+                self.userAvatarView.loadImage(with: userInfo?.avatarUrl, placeholder: "empty_profile")
                 self.userNameLB.text = userInfo?.name ?? ""
             }
         }

@@ -70,7 +70,7 @@ class ZIMKitRecentChatListCell: UITableViewCell {
   func configure(with title: String,avatarUrl: String, groupConversation: Bool) {
         conversationName.text = title
     
-        var placeHolder = "avatar_default"
+        var placeHolder = "empty_profile"
         if groupConversation == true {
             placeHolder = "groupAvatar_default"
         }

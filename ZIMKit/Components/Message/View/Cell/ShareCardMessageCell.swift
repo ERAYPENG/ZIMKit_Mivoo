@@ -57,7 +57,7 @@ final class ShareCardMessageCell: MessageCell {
     private lazy var priceIconImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
-        iv.image = UIImage(named: "ic_price_star")
+        iv.image = loadImageSafely(with: "ic_price_star")
         return iv
     }()
 

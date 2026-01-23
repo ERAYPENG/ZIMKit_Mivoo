@@ -166,7 +166,7 @@ class ConversationCell: _TableViewCell {
         guard let model = model else { return }
         
         // load image
-        var placeHolder = "avatar_default"
+        var placeHolder = "empty_profile"
         if model.type == .group {
             placeHolder = "groupAvatar_default"
         }

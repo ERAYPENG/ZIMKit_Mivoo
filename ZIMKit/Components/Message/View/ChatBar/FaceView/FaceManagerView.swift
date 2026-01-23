@@ -69,10 +69,6 @@ class FaceManagerView: _View {
 // MARK: - Public
 extension FaceManagerView {
     func updateCurrentTextViewContent(_ text: String) {
-        if let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as? DefaultEmojiCollectionView {
-            cell.deleteButton.isEnabled = text.count > 0
-            cell.sendButton.isEnabled = text.count > 0
-        }
     }
 }
 
