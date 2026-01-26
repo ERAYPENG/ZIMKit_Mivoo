@@ -63,7 +63,7 @@ open class ZIMKitConversationListVC: _ViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         configViewModel()
-        LocalAPNS.shared.setupLocalAPNS()
+//        LocalAPNS.shared.setupLocalAPNS() // 改為 Mivoo 發送
         initCallConfig()
         initBinding()
         ZIMKitCore.shared.getNewestFriendApplication()

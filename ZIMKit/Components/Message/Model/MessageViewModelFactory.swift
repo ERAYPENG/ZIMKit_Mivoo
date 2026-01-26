@@ -8,9 +8,10 @@
 import Foundation
 import ZIM
 
-@objc public enum CustomMessageSubType: Int {
+@objc public enum CustomMessageSubType: UInt32 {
     case unknown = 0
     case shareCard = 1
+    case system = 30
 }
 
 class MessageViewModelFactory {

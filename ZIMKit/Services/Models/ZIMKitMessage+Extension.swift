@@ -104,7 +104,7 @@ extension ZIMKitMessage {
             let extended = zim.extendedData
             guard let data = extended.data(using: .utf8),
                   let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                  let subTypeRaw = json["subType"] as? Int,
+                  let subTypeRaw = json["subType"] as? UInt32,
                   let subType = CustomMessageSubType(rawValue: subTypeRaw) else {
                 return
             }

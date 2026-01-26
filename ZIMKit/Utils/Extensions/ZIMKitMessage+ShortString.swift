@@ -31,17 +31,9 @@ extension ZIMKitMessage {
         case .custom:
             if self.shareCardContent.subType == .shareCard {
                 shortStr = L10n("share_card")
-            } else {
-                shortStr = L10n("common_message_system")
             }
         case .system:
             shortStr = L10n("common_message_system")
-            if self.zim?.type == .custom {
-                let customerMessage:ZIMCustomMessage = self.zim as! ZIMCustomMessage
-                if customerMessage.subType == systemMessageSubType {
-                    shortStr = self.systemContent.content
-                }
-            }
         default:
             shortStr = L10n("common_message_unknown")
         }
