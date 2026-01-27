@@ -22,7 +22,8 @@ class ConversationListViewModel: NSObject {
 extension ConversationListViewModel {
     
     func getConversationList(_ callback: (([ZIMKitConversation], ZIMError) -> Void)?) {
-        ZIMKit.getConversationList { conversations, error in
+        ZIMKit.getConversationList { [weak self] conversations, error in
+            guard let self else { return }
             self.conversations = conversations
             callback?(conversations, error)
         }

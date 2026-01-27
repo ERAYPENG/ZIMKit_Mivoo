@@ -94,7 +94,7 @@ extension ZIMKitCore {
         pushConfig.title = conversationName
         pushConfig.content = text
         pushConfig.payload = ""
-        pushConfig.resourcesID = self.config?.callPluginConfig?.resourceID ?? ""
+        pushConfig.resourcesID = OfflinePushResourceID.textMessage
         
         let dict:[String:String] = ["conversationID":(type == .peer) ?  localUser?.id ?? "": conversationID,"conversationType":String(describing: type.rawValue)]
         
@@ -238,7 +238,7 @@ extension ZIMKitCore {
         pushConfig.title = conversationName
         pushConfig.content = message.fileLocalPath
         pushConfig.payload = ""
-        pushConfig.resourcesID = self.config?.callPluginConfig?.resourceID ?? ""
+        pushConfig.resourcesID = OfflinePushResourceID.mediaMessage
         
         let dict:[String:String] = ["conversationID":(type == .peer) ?  localUser?.id ?? "": conversationID,"conversationType":String(describing: type.rawValue)]
         
@@ -756,6 +756,7 @@ extension ZIMKitCore {
         let pushConfig = ZIMPushConfig()
         pushConfig.title = conversationName.isEmpty ? (localUser?.name ?? "") : conversationName
         pushConfig.content = L10n("share_card")
+        pushConfig.resourcesID = OfflinePushResourceID.shareCardMessage
         config.pushConfig = pushConfig
 
         let notification = ZIMMessageSendNotification()
