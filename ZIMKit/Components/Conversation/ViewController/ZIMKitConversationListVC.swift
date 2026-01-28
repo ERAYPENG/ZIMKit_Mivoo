@@ -94,13 +94,13 @@ open class ZIMKitConversationListVC: _ViewController {
     }
     
     private func initBinding() {
-        ZIMKitCore.shared.$newestFriendApplicationInfo
+        ZIMKitCore.shared.$newestFriendApplicationInfos
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] applicationInfo in
+            .sink { [weak self] applicationInfos in
                 guard let self else { return }
                 if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ConversationApplicationCell {
-                    cell.model = applicationInfo
-                    cell.updateUnreadStatus(isUnread: applicationInfo != nil)
+                    cell.model = applicationInfos
+                    cell.updateUnreadNumber(with: applicationInfos.count)
                 }
             }
             .store(in: &cancellables)

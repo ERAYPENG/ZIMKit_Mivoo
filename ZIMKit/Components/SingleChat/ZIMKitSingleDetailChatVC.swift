@@ -128,13 +128,14 @@ class ZIMKitSingleDetailChatVC: _ViewController {
             contentItemView.topAnchor.pin(equalTo: userInfoView.bottomAnchor, constant: 16),
             contentItemView.leadingAnchor.pin(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             contentItemView.trailingAnchor.pin(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            contentItemView.heightAnchor.pin(equalToConstant: 108.0)
+            contentItemView.heightAnchor.pin(equalToConstant: 54.0)
         ])
     }
     
     func updateSubviewsContent() {
         
-        let itemArray:[String] = [L10n("conversation_chat_top"),L10n("conversation_chat_not_disturb")]
+//        let itemArray:[String] = [L10n("conversation_chat_top"),L10n("conversation_chat_not_disturb")]
+        let itemArray:[String] = [L10n("conversation_chat_not_disturb")]
         for (index, title) in itemArray.enumerated() {
             let view: UIView = createItemView(title: title,indexTag: index + 1)
             contentItemView.addSubview(view)

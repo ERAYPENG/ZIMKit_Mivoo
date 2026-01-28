@@ -44,12 +44,10 @@ class ConversationApplicationCell: _TableViewCell {
         return label
     }()
     
-    lazy var unReadBubble: UIView = {
-        let v =  UIView().withoutAutoresizingMaskConstraints
-        v.backgroundColor = .red
-        v.layer.cornerRadius = 9
-        v.isHidden = true
-        return v
+    lazy var unReadBubble: UnReadBubble = {
+        let bubble = UnReadBubble().withoutAutoresizingMaskConstraints
+        bubble.setViewBackGroundColor(.zim_backgroundRed)
+        return bubble
     }()
     
     lazy var line: UIView = {
@@ -59,7 +57,7 @@ class ConversationApplicationCell: _TableViewCell {
         return view
     }()
     
-    var model: ZIMFriendApplicationInfo? {
+    var model: [ZIMFriendApplicationInfo] = [] {
         didSet {
             updateContent()
         }
@@ -139,21 +137,23 @@ class ConversationApplicationCell: _TableViewCell {
             unReadBubble.heightAnchor.pin(equalToConstant: 18.0)
         ])
         unReadViewWidthConstraint.isActive = true
+        unReadBubble.isVisible = !model.isEmpty
+        unReadBubble.setNum(UInt32(model.count))
     }
     
     override func updateContent() {
         super.updateContent()
         
-        guard let model = model else {
+        guard !model.isEmpty, let data = model.first else {
             subTitleLabel.text = L10n("conversation_application_empty")
             return
         }
         // update time
-        timeLabel.text = timestampToConversationDateStr(UInt64(model.createTime))
+        timeLabel.text = timestampToConversationDateStr(UInt64(data.createTime))
         
         // update subtitle
         let title = L10n("conversation_application_friend_invite")
-        let description = L10n("conversation_application_description", model.applyUser.userName)
+        let description = L10n("conversation_application_description", data.applyUser.userName)
 
         let attributedText = NSMutableAttributedString(
             string: title,
@@ -172,7 +172,8 @@ class ConversationApplicationCell: _TableViewCell {
         self.layoutIfNeeded()
     }
     
-    func updateUnreadStatus(isUnread: Bool) {
-        unReadBubble.isHidden = !isUnread
+    func updateUnreadNumber(with number: Int) {
+        unReadBubble.isVisible = number == 0 ? false : true
+        unReadBubble.setNum(UInt32(number))
     }
 }

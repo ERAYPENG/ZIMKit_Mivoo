@@ -146,43 +146,43 @@ extension ZIMKitCore {
     func getNewestFriendApplication() {
         Task {
             var nextFlag: UInt32 = 0
-            var foundApplication: ZIMFriendApplicationInfo?
+            var results: [ZIMFriendApplicationInfo] = []
 
             repeat {
                 let config = ZIMFriendApplicationListQueryConfig()
                 config.count = 50
                 config.nextFlag = nextFlag
 
-                let (result, next) = await withCheckedContinuation { continuation in
+                let (list, next) = await withCheckedContinuation { continuation in
                     zim?.queryFriendApplicationList(with: config) { result, nextFlag, _ in
                         continuation.resume(returning: (result, nextFlag))
                     }
                 }
 
-                if let firstReceived = result.first(where: {
-                    $0.type == .received &&
-                    $0.state == .waiting
-                }) {
-                    foundApplication = firstReceived
-                    break
+                let filtered = list.filter {
+                    $0.type == .received && $0.state == .waiting
                 }
 
+                results.append(contentsOf: filtered)
                 nextFlag = next
+
             } while nextFlag != 0
             
-            self.newestFriendApplicationInfo = foundApplication
+            let safeResults = results
+            
+            await MainActor.run {
+                self.newestFriendApplicationInfos = safeResults
+            }
         }
     }
     
     // 好友列表發生變化(更新或是加減)
     func updateNewestFriendApplication(from list: [ZIMFriendApplicationInfo]) {
-        if let newest = list.first(where: {
+        let filtered = list.filter {
             ($0.type == .received || $0.type == .both) &&
             $0.state == .waiting
-        }) {
-            self.newestFriendApplicationInfo = newest
-        } else {
-            self.newestFriendApplicationInfo = nil
         }
+
+        self.newestFriendApplicationInfos = filtered
     }
 }
