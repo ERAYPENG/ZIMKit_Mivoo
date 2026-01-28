@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ZIM
 
 extension ZIMKit {
     
@@ -48,5 +49,9 @@ extension ZIMKit {
     
     @objc public static func updateOtherUserInfo(userID: String,_ avatarUrl: String,_ name: String) {
         ZIMKitCore.shared.updateOtherUserInfo(userID: userID, avatarUrl, name)
+    }
+    
+    @objc public static  func updateLocalSelfInfo(by fullUserInfo: ZIMUserFullInfo) {
+        ZIMKitCore.shared.updateLocalSelfInfo(by: fullUserInfo)
     }
 }

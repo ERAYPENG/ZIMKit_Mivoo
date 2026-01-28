@@ -134,6 +134,31 @@ class MessageCell: _TableViewCell {
         selectButton.addTarget(self, action: #selector(selectButtonClick), for: .touchUpInside)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        avatarImageView.image = loadImageSafely(with: "empty_profile")
+        nameLabel.text = nil
+        timeLabel.text = nil
+        tipsLabel.text = nil
+        revokeLabel.text = nil
+
+        timeLabel.isHidden = true
+        nameLabel.isHidden = true
+        tipsLabel.isHidden = true
+        revokeLabel.isHidden = true
+
+        indicator.stopAnimation()
+        indicator.isHidden = true
+        retryButton.isHidden = true
+
+        selectIcon.image = nil
+        selectIcon.isHidden = true
+        selectButton.isHidden = true
+
+        emojiContentView.isHidden = true
+    }
+    
     override func setUpLayout() {
         super.setUpLayout()
         

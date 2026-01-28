@@ -100,6 +100,11 @@ extension ZIMKitCore {
         })
     }
     
+    func updateLocalSelfInfo(by fullUserInfo: ZIMUserFullInfo) {
+        self.localUser?.avatarUrl = fullUserInfo.userAvatarUrl
+        self.localUser?.name = fullUserInfo.baseInfo.userName
+    }
+    
     func updateOtherUserInfo(userID: String,_ avatarUrl: String,_ name: String) {
         if let userInfo = userDict[userID] {
             let user = userInfo
