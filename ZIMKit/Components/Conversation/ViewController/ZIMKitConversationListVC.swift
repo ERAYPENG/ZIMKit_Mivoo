@@ -17,6 +17,8 @@ open class ZIMKitConversationListVC: _ViewController {
     @objc public weak var delegate: ZIMKitConversationListVCDelegate?
     @objc public weak var messageDelegate: ZIMKitMessagesListVCDelegate?
     
+    private var navigateConversationID: String?
+    
     lazy var viewModel = ConversationListViewModel()
     
     lazy var noDataView: ConversationNoDataView = {
@@ -107,19 +109,43 @@ open class ZIMKitConversationListVC: _ViewController {
     func configViewModel() {
         // listen the conversations change and reload.
         viewModel.$conversations.bind { [weak self] _ in
-            self?.tableView.reloadData()
+            guard let self else { return }
+            tableView.reloadData()
         }
     }
     
-    open func getConversationList() {
+    private func handleNavigationChat() {
+        if let navigateConversationID, let conversation = viewModel.conversations.first(where: { $0.id == navigateConversationID }) {
+            let defaultAction = { }
+            self.delegate?.conversationList?(self, didSelectWith: conversation, defaultAction: defaultAction)
+            self.viewModel.clearConversationUnreadMessageCount(conversation.id, type: conversation.type)
+            self.navigateConversationID = nil
+        }
+    }
+    
+    open func getConversationList(completion: (() -> Void)? = nil) {
         viewModel.getConversationList { [weak self] conversations, error in
-            if error.code == .ZIMErrorCodeSuccess { return }
             guard let self = self else { return }
+            if error.code == .ZIMErrorCodeSuccess {
+                completion?()
+                return
+            }
             self.noDataView.setButtonTitle(L10n("conversation_reload"))
             self.noDataView.isHidden = false
             HUDHelper.showErrorMessageIfNeeded(error.code.rawValue,
                                                defaultMessage: L10n("conversation_wait_login"))
         }
+    }
+    
+    open func gotoChatVC(by conversationID: String) {
+        self.navigateConversationID = conversationID
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.handleNavigationChat()
+        }
+    }
+    
+    open func gotoInvite() {
+        delegate?.didTapFriendApplicationCell?(self)
     }
     
     func loadMoreConversations() {

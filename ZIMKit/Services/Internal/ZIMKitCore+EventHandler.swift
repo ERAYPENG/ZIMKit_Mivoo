@@ -117,4 +117,10 @@ extension ZIMKitCore {
             delegate.onMessageReactionsChanged?(reactions)
         }
     }
+    
+    func zim(_ zim: ZIM, messageReceiptChanged infos: [ZIMMessageReceiptInfo]) {
+        for delegate in delegates.allObjects {
+            delegate.onMessageReceiptChanged?(infos)
+        }
+    }
 }

@@ -30,6 +30,7 @@ extension ZIMKitMessage {
         info.conversationSeq = zim.conversationSeq
         info.orderKey = zim.orderKey
         info.isUserInserted = zim.isUserInserted
+        info.receiptStatus = zim.receiptStatus
         
         if let zim = zim as? ZIMTextMessage {
             textContent.content = zim.message

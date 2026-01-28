@@ -10,4 +10,5 @@ public enum OfflinePushResourceID {
     public static let textMessage = "textMessage"
     public static let mediaMessage = "mediaMessage"
     public static let shareCardMessage = "shareCardMessage"
+    public static let invite = "invite"
 }

@@ -23,6 +23,13 @@ extension ZIMKit {
         ZIMKitCore.shared.loadMoreMessage(with: conversationID, type: type, callback: callback)
     }
     
+    @objc public static func findLatestReadCursor(in messages: [ZIMKitMessage],
+                                           conversationID: String,
+                                           type: ZIMConversationType,
+                                           completion: @escaping (ZIMKitMessage?) -> Void) {
+        ZIMKitCore.shared.findLatestReadCursor(in: messages, conversationID: conversationID, type: type, completion: completion)
+    }
+    
     @objc public static func sendTextMessage(_ text: String,
                                              to conversationID: String,
                                              type: ZIMConversationType,

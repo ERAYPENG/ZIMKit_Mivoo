@@ -23,6 +23,7 @@ public class MessageBaseInfo: NSObject {
     @objc public var isUserInserted: Bool = false
     @objc public var senderUserName: String?
     @objc public var senderUserAvatarUrl: String?
+    @objc public var receiptStatus: ZIMMessageReceiptStatus = .processing
 }
 
 public class MediaTransferProgress: NSObject {

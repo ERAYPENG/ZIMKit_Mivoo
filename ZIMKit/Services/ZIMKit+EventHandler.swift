@@ -54,4 +54,8 @@ extension ZIMKit {
     @objc public static func updateNewestFriendApplication(from list: [ZIMFriendApplicationInfo]) {
         ZIMKitCore.shared.updateNewestFriendApplication(from: list)
     }
+    
+    @objc public static func zim(_ zim: ZIM, messageReceiptChanged infos: [ZIMMessageReceiptInfo]) {
+        ZIMKitCore.shared.zim(zim, messageReceiptChanged: infos)
+    }
 }

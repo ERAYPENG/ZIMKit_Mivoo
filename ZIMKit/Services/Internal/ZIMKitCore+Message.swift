@@ -56,6 +56,50 @@ extension ZIMKitCore {
         })
     }
     
+    func findLatestReadCursor(in messages: [ZIMKitMessage],
+                              conversationID: String,
+                              type: ZIMConversationType,
+                              completion: @escaping (ZIMKitMessage?) -> Void) {
+
+//        let sendZIMMessages = messages.compactMap { $0.zim }.filter { $0.direction == .send }
+//        guard !sendZIMMessages.isEmpty else {
+//            completion(nil)
+//            return
+//        }
+//
+//        zim?.queryMessageReceiptsInfo(by: sendZIMMessages,
+//                                      conversationID: conversationID,
+//                                      conversationType: type) { receiptInfos, errorMessageIDs, _ in
+//
+//            let readIDStrings = receiptInfos
+//                .filter { $0.status == .done }
+//                .map { "\( $0.messageID )" }
+//
+//            let errorIDStrings = errorMessageIDs.map { "\($0)" }
+//
+//            guard !readIDStrings.isEmpty else {
+//                completion(nil)
+//                return
+//            }
+//
+//            let readMessages = messages.filter { msg in
+//                let msgIDStr = "\( msg.info.messageID )"
+//                return readIDStrings.contains(msgIDStr) || errorIDStrings.contains(msgIDStr)
+//            }
+//
+//            guard !readMessages.isEmpty else {
+//                completion(nil)
+//                return
+//            }
+//
+//            let latest = readMessages.max { a, b in
+//                a.info.timestamp < b.info.timestamp
+//            }
+//
+//            completion(latest)
+//        }
+    }
+    
     func sendTextMessage(_ text: String,
                          to conversationID: String,
                          type: ZIMConversationType,
@@ -96,7 +140,7 @@ extension ZIMKitCore {
         pushConfig.payload = ""
         pushConfig.resourcesID = OfflinePushResourceID.textMessage
         
-        let dict:[String:String] = ["conversationID":(type == .peer) ?  localUser?.id ?? "": conversationID,"conversationType":String(describing: type.rawValue)]
+        let dict:[String:String] = ["conversationID": conversationID,"conversationType":String(describing: type.rawValue)]
         
         if let jsonString = zimKit_convertDictToString(dict: dict as [String :AnyObject]) {
             pushConfig.payload = jsonString
@@ -153,7 +197,7 @@ extension ZIMKitCore {
         combineMessage.title = combineTitle
         combineMessage.summary = content
         combineMessage.messageList = conversationList
-//        combineMessage.extendedData = extendedData
+        //        combineMessage.extendedData = extendedData
         zim?.sendMessage(combineMessage, toConversationID: conversationID, conversationType: type, config: config, notification: notification, callback: { message, errorInfo in
             let msg = self.messageList.get(with: message)
             msg.update(with: message)
@@ -709,7 +753,7 @@ extension ZIMKitCore {
                               conversationName: String = "",
                               shareCardContent: ShareCardMessageContent,
                               callback: MessageSentCallback? = nil) {
-
+        
         let customMessage = ZIMCustomMessage()
         
         let shareCardDict: [String: Any] = [
@@ -728,37 +772,37 @@ extension ZIMKitCore {
            let jsonStr = String(data: shareCardData, encoding: .utf8) {
             shareCardJSONString = jsonStr
         }
-
+        
         let extendedDict: [String: Any] = [
             "subType": CustomMessageSubType.shareCard.rawValue,
             "shareCard": shareCardJSONString
         ]
-
+        
         if let data = try? JSONSerialization.data(withJSONObject: extendedDict, options: []),
            let jsonStr = String(data: data, encoding: .utf8) {
             customMessage.extendedData = jsonStr
         }
-
+        
         customMessage.message = L10n("share_card")
-
+        
         var kitMessage = ZIMKitMessage(with: customMessage)
         kitMessage.info.senderUserName = localUser?.name
         kitMessage.info.senderUserAvatarUrl = localUser?.avatarUrl
-
+        
         for delegate in delegates.allObjects {
             if let method = delegate.onMessagePreSending {
                 guard let msg = method(kitMessage) else { return }
                 kitMessage = msg
             }
         }
-
+        
         let config = ZIMMessageSendConfig()
         let pushConfig = ZIMPushConfig()
         pushConfig.title = conversationName.isEmpty ? (localUser?.name ?? "") : conversationName
         pushConfig.content = L10n("share_card")
         pushConfig.resourcesID = OfflinePushResourceID.shareCardMessage
         config.pushConfig = pushConfig
-
+        
         let notification = ZIMMessageSendNotification()
         notification.onMessageAttached = { msg in
             if msg.sentStatus != .sendFailed {
@@ -769,7 +813,7 @@ extension ZIMKitCore {
                 }
             }
         }
-
+        
         zim?.sendMessage(customMessage,
                          toConversationID: conversationID,
                          conversationType: type,

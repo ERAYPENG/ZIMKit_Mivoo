@@ -54,6 +54,14 @@ extension ZIMKitCore {
         })
     }
     
+    func markConversationAsRead(for conversationID: String,
+                                type: ZIMConversationType,
+                                callback: ((ZIMError?) -> Void)? = nil) {
+        zim?.sendConversationMessageReceiptRead(for: conversationID, conversationType: type) { _, _, error in
+            callback?(error)
+        }
+    }
+    
     func loadMoreConversation(_ isCallbackListChanged: Bool = true,
                               callback: LoadMoreConversationCallback? = nil) {
         if isLoadedAllConversations { return }

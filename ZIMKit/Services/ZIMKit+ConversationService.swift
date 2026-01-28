@@ -28,6 +28,12 @@ extension ZIMKit {
         ZIMKitCore.shared.clearUnreadCount(for: conversationID, type: type, callback: callback)
     }
     
+    @objc public static func markConversationAsRead(for conversationID: String,
+                                                    type: ZIMConversationType,
+                                                    callback: ((ZIMError?) -> Void)? = nil) {
+        ZIMKitCore.shared.markConversationAsRead(for: conversationID, type: type, callback: callback)
+    }
+    
     @objc public static func loadMoreConversation(_ callback: LoadMoreConversationCallback? = nil) {
         ZIMKitCore.shared.loadMoreConversation(callback: callback)
     }

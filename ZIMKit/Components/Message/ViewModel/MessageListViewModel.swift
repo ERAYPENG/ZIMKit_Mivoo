@@ -223,6 +223,7 @@ extension MessageListViewModel {
             DispatchQueue.main.async {
                 self.isReceiveNewMessage = true
             }
+            ZIMKit.markConversationAsRead(for: conversationID, type: conversationType)
         }
         clearConversationUnreadMessageCount()
     }
@@ -469,4 +470,37 @@ extension MessageListViewModel: ZIMKitDelegate {
             }
         }
     }
+    
+    func onMessageReceiptChanged(_ infos: [ZIMMessageReceiptInfo]) {
+//        handleMessageQueue.async { [self] in
+//            guard let checkpoint = infos.max(by: { $0.readTime < $1.readTime }) else { return }
+//
+//            var updatedPaths: [IndexPath] = []
+//
+//            for (index, vm) in messageViewModels.enumerated().reversed() {
+//                guard let message = vm.message.zim else { continue }
+//
+//                // 已是已讀就跳過（避免重複 reload）
+//                if message.receiptStatus == .done { continue }
+//
+//                // 同一個 conversation + timestamp 早於等於 checkpoint
+//                if message.conversationID == checkpoint.conversationID,
+//                   message.timestamp <= checkpoint.readTime {
+//
+//                    vm.message.info.receiptStatus = .done
+//
+//                    messageViewModels[index] = vm
+//                    updatedPaths.append(IndexPath(row: index, section: 0))
+//
+//                } else if message.timestamp < checkpoint.readTime {
+//                    break
+//                }
+//            }
+//
+//            DispatchQueue.main.async {
+//                self.updatedReceiptMessageIndexPaths = updatedPaths
+//            }
+//        }
+    }
+    
 }

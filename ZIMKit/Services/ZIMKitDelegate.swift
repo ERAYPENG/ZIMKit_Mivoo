@@ -60,4 +60,7 @@ import ZIM
   
     @objc optional
     func onMessageReactionsChanged(_ reactions: [ZIMMessageReaction])
+    
+    @objc optional
+    func onMessageReceiptChanged(_ infos: [ZIMMessageReceiptInfo])
 }
