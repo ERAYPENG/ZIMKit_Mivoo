@@ -262,7 +262,7 @@ class ChatBar: _View {
         view.delegate = self
         return view
     }()
-    var buttons: [ZIMKitMenuBarButtonName] = ZIMKit().imKitConfig.bottomConfig.smallButtons
+    var buttons: [ZIMKitMenuBarButtonName] = []
     var moreButtons: [ZIMKitMenuBarButtonName] = ZIMKit().imKitConfig.bottomConfig.expandButtons
 
     

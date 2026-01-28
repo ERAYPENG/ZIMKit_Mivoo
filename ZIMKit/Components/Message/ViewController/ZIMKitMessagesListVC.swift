@@ -304,33 +304,29 @@ open class ZIMKitMessagesListVC: _ViewController {
             }
         }
         viewModel.$isHistoryMessageLoaded.bind { [weak self] _ in
-            if self?.viewModel.isHistoryMessageLoaded == false {
+            guard let self = self else { return }
+
+            if self.viewModel.isHistoryMessageLoaded == false {
                 return
             }
-            guard let self  = self else { return }
+
             if self.viewModel.isNoMoreMsg {
                 self.indicatorView.h = 0
             } else {
                 self.indicatorView.h = tableHeaderHeight
             }
+
+            let previousContentHeight = self.tableView.contentSize.height
+
             self.tableView.reloadData()
             self.tableView.layoutIfNeeded()
-            
-            guard let lastMessageViewModel = self.firstHistoryMessageViewModel else { return }
-            
-            var visibleHeight = 0.0
-            for msgViewModel in self.viewModel.messageViewModels {
-                if msgViewModel === lastMessageViewModel { break }
-                visibleHeight += msgViewModel.cellHeight
-            }
-            
-            if self.viewModel.isNoMoreMsg {
-                visibleHeight -= tableHeaderHeight
-            }
-            if !lastMessageViewModel.isShowTime {
-                visibleHeight -= 32.5
-            }
-            scrollToBottom(false)
+
+            let newContentHeight = self.tableView.contentSize.height
+
+            let heightDiff = newContentHeight - previousContentHeight
+            self.tableView.contentOffset.y += heightDiff
+
+            self.hideOptionsView()
         }
         viewModel.$isMessageNewReactionIndexPath.bind { [weak self] _ in
             if let indexPath = self?.viewModel.isMessageNewReactionIndexPath {
