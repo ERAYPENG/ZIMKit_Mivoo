@@ -28,7 +28,7 @@
 "common_sure" = "OK";
 
 "conversation_start_chat" = "+ New Chat";
-"conversation_empty" = "No chats. Start chatting now.";
+"conversation_empty" = "No data yet.";
 "conversation_start_single_chat" = "One-on-one chat";
 "conversation_start_group_chat" = "Group chat";
 "conversation_join_group_chat" = "Join a group";

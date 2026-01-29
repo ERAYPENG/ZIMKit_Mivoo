@@ -21,12 +21,6 @@ open class ZIMKitConversationListVC: _ViewController {
     
     lazy var viewModel = ConversationListViewModel()
     
-    lazy var noDataView: ConversationNoDataView = {
-        let noDataView = ConversationNoDataView(frame: view.bounds).withoutAutoresizingMaskConstraints
-        noDataView.delegate = self
-        return noDataView
-    }()
-    
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: view.bounds, style: .plain).withoutAutoresizingMaskConstraints
         tableView.tableFooterView = UIView()
@@ -39,6 +33,9 @@ open class ZIMKitConversationListVC: _ViewController {
         tableView.rowHeight = 74
         tableView.separatorStyle = .none
         tableView.delaysContentTouches = false
+        let noDataView = ConversationNoDataView()
+        noDataView.frame = tableView.bounds
+        tableView.backgroundView = noDataView
         return tableView
     }()
     
@@ -52,14 +49,6 @@ open class ZIMKitConversationListVC: _ViewController {
         super.setUpLayout()
         
         view.embed(tableView)
-        view.addSubview(noDataView)
-        noDataView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            noDataView.topAnchor.constraint(equalTo: view.topAnchor, constant: 68), // 預留 index 0 高度
-            noDataView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            noDataView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            noDataView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
     }
 
     open override func viewDidLoad() {
@@ -74,6 +63,36 @@ open class ZIMKitConversationListVC: _ViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getConversationList()
+        if #available(iOS 15.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = UIColor(hex: "#1F1A2F")
+            appearance.titleTextAttributes = [
+                .foregroundColor: UIColor.white,
+                .font: UIFont.systemFont(ofSize: 17)
+            ]
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            navigationController?.navigationBar.compactAppearance = appearance
+        }
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if #available(iOS 15.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = UIColor(hex: "#171325")
+            appearance.titleTextAttributes = [
+                .foregroundColor: UIColor.white,
+                .font: UIFont.systemFont(ofSize: 17)
+            ]
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            navigationController?.navigationBar.compactAppearance = appearance
+        }
+        navigationController?.navigationBar.isTranslucent = false
     }
     
     func initCallConfig() {
@@ -130,8 +149,7 @@ open class ZIMKitConversationListVC: _ViewController {
                 completion?()
                 return
             }
-            self.noDataView.setButtonTitle(L10n("conversation_reload"))
-            self.noDataView.isHidden = false
+            tableView.backgroundView?.isHidden = viewModel.conversations.count > 0
             HUDHelper.showErrorMessageIfNeeded(error.code.rawValue,
                                                defaultMessage: L10n("conversation_wait_login"))
         }
@@ -155,7 +173,7 @@ open class ZIMKitConversationListVC: _ViewController {
 
 extension ZIMKitConversationListVC: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.noDataView.isHidden = viewModel.conversations.count > 0
+        tableView.backgroundView?.isHidden = viewModel.conversations.count > 0
         return viewModel.conversations.count + 1 // index 0 是 application cell
     }
     
@@ -297,11 +315,5 @@ extension ZIMKitConversationListVC: UITableViewDelegate {
                 }
         }
         return messageIndex
-    }
-}
-
-extension ZIMKitConversationListVC: ConversationNoDataViewDelegate {
-    func onNoDataViewButtonClick() {
-        getConversationList()
     }
 }

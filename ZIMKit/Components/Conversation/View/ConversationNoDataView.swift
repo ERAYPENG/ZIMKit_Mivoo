@@ -16,7 +16,14 @@ class ConversationNoDataView: _View {
 
     weak var delegate: ConversationNoDataViewDelegate?
 
-    lazy var titleLabel: UILabel = {
+    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView().withoutAutoresizingMaskConstraints
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = loadImageSafely(with: "cat_magnet")
+        return imageView
+    }()
+
+    private lazy var titleLabel: UILabel = {
         let label = UILabel().withoutAutoresizingMaskConstraints
         label.textColor = .zim_textGray1
         label.textAlignment = .center
@@ -26,50 +33,25 @@ class ConversationNoDataView: _View {
         return label
     }()
 
-    lazy var createButton: UIButton = {
-        let btn = UIButton(type: .custom).withoutAutoresizingMaskConstraints
-        btn.setTitle(L10n("conversation_reload"), for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: .semibold)
-        btn.setTitleColor(.zim_textWhite, for: .normal)
-        btn.backgroundColor = .zim_backgroundBlue1
-        btn.layer.cornerRadius = 8.0
-        btn.addTarget(self, action: #selector(createButtonClick(_:)), for: .touchUpInside)
-        btn.isHidden = true
-        return btn
-    }()
-
     override func setUp() {
         super.setUp()
+        addSubview(imageView)
+        addSubview(titleLabel)
     }
 
     override func setUpLayout() {
         super.setUpLayout()
 
-        addSubview(titleLabel)
-        addSubview(createButton)
-
         NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.pin(equalTo: centerXAnchor),
-            titleLabel.topAnchor.pin(equalTo: safeAreaLayoutGuide.topAnchor, constant: 200.0),
-            titleLabel.heightAnchor.pin(equalToConstant: 40.0)
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -40 * scaled),
+            imageView.widthAnchor.constraint(equalToConstant: 150 * scaled),
+            imageView.heightAnchor.constraint(equalToConstant: 150 * scaled),
+
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 20 * scaled),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -20 * scaled)
         ])
-
-        NSLayoutConstraint.activate([
-            createButton.leadingAnchor.pin(equalTo: leadingAnchor, constant: 37),
-            createButton.trailingAnchor.pin(equalTo: trailingAnchor, constant: -37),
-            createButton.bottomAnchor.pin(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -44),
-            createButton.heightAnchor.pin(equalToConstant: 50)
-        ])
-    }
-
-    func setButtonTitle(_ title: String) {
-        createButton.setTitle(title, for: .normal)
-        titleLabel.isHidden = true
-    }
-}
-
-extension ConversationNoDataView {
-    @objc func createButtonClick(_ sender: UIButton) {
-        delegate?.onNoDataViewButtonClick()
     }
 }

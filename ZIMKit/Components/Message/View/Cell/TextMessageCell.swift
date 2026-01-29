@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TextMessageCell: BubbleMessageCell {
+class TextMessageCell: RoundedBubbleMessageCell {
     override class var reuseId: String {
         String(describing: TextMessageCell.self)
     }

@@ -52,11 +52,11 @@ final class ShareCardMessageCell: MessageCell {
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14 * scaled, weight: .semibold)
+        label.font = .systemFont(ofSize: 18 * scaled, weight: .semibold)
         label.textColor = .white
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.5
+        label.minimumScaleFactor = 0.8
         label.textAlignment = .left
         return label
     }()

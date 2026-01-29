@@ -68,7 +68,7 @@ class ConversationApplicationCell: _TableViewCell {
     override func setUp() {
         super.setUp()
         isUserInteractionEnabled = true
-        backgroundColor = .mivoo_backgroundDarkBlue1
+        backgroundColor = UIColor(hex: "#1F1A2F")
         selectionStyle = .none
     }
     

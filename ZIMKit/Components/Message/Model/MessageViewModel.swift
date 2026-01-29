@@ -78,7 +78,7 @@ class MessageViewModel: Equatable {
         message = msg
         
         // update cell config
-        cellConfig.messageTextColor = msg.info.direction == .send ? .zim_textWhite : .zim_textBlack1
+        cellConfig.messageTextColor = .zim_textWhite
         if message.type == .text || message.type == .unknown {
             cellConfig.contentInsets = UIEdgeInsets(top: 11, left: 12, bottom: 11, right: 12)
         }

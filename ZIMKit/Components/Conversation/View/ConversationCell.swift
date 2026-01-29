@@ -240,7 +240,7 @@ class ConversationCell: _TableViewCell {
         } else {
             subtitleLeadingConstraint.constant = 0
         }
-        contentView.backgroundColor = (model.isPinned == true) ? UIColor(hex: "#1F1A2F") : .clear
+        contentView.backgroundColor = (model.isPinned == true) ? UIColor(hex: "#1F1A2F") : .mivoo_backgroundDarkBlue1
         
         self.layoutIfNeeded()
     }

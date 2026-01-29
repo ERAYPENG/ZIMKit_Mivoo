@@ -690,28 +690,34 @@ extension ChatBar: TextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         let newCursorPosition = textView.selectedRange.location
-        
         updateTextViewLayout()
+
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 7.0  //行间距
+        paragraphStyle.lineSpacing = 7.0
         let fontSize: CGFloat = 15.0
-        
-        let attributedString = NSAttributedString(string: textView.text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize), NSAttributedString.Key.paragraphStyle: paragraphStyle, NSAttributedString.Key.foregroundColor: UIColor.white])
-        
-        if let lang = textView.textInputMode?.primaryLanguage, lang == "zh-Hans" {
-            if textView.markedTextRange == nil {
-                textView.attributedText = attributedString
-            } else {
-                
-            }
-        } else {
-            textView.attributedText = attributedString
-        }
-        
-        faceView.updateCurrentTextViewContent(textView.text)
-        chatTextView.placeholderLabel.isHidden = textView.text.count > 0 ? true : false
-        chatTextView.sendButton?.isEnabled = textView.text.count > 0 ? true : false
+
+        let attributedString = NSAttributedString(
+            string: textView.text,
+            attributes: [
+                .font: UIFont.systemFont(ofSize: fontSize),
+                .paragraphStyle: paragraphStyle,
+                .foregroundColor: UIColor.white
+            ]
+        )
+
+        let isComposing = textView.markedTextRange != nil
+        let isEmpty = textView.text.isEmpty
+
+        chatTextView.placeholderLabel.isHidden = !isEmpty || isComposing
+        chatTextView.sendButton?.isEnabled = !textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+
+        // ⚠️ 注意：不要在組字時更新 attributedText，否則注音、拼音等會中斷
+        guard !isComposing else { return }
+
+        textView.attributedText = attributedString
         insertTextAfterCursor(newCursorPosition)
+
+        faceView.updateCurrentTextViewContent(textView.text)
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

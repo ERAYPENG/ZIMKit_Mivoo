@@ -28,7 +28,7 @@
 "common_sure" = "确定";
 
 "conversation_start_chat" = "+ 开始聊天";
-"conversation_empty" = "暂无消息\n快去发起聊天吧";
+"conversation_empty" = "暂无数据";
 "conversation_start_single_chat" = "发起单聊";
 "conversation_start_group_chat" = "发起群聊";
 "conversation_join_group_chat" = "加入群聊";
