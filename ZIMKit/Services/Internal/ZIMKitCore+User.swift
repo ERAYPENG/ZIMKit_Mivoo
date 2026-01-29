@@ -44,6 +44,11 @@ extension ZIMKitCore {
         }
     }
     
+    func setupLoacalUser(userID: String, userName: String? = nil, avatarUrl: String? = nil) {
+        self.localUser = ZIMKitUser(userID: userID, userName: userName ?? "", avatarUrl: avatarUrl)
+        self.userDict[userID] = self.localUser
+    }
+    
     func disconnectUser() {
         zim?.logout()
         clearData()

@@ -54,4 +54,8 @@ extension ZIMKit {
     @objc public static  func updateLocalSelfInfo(by fullUserInfo: ZIMUserFullInfo) {
         ZIMKitCore.shared.updateLocalSelfInfo(by: fullUserInfo)
     }
+    
+    @objc public static func setupLoacalUser(userID: String, userName: String? = nil, avatarUrl: String? = nil) {
+        ZIMKitCore.shared.setupLoacalUser(userID: userID, userName: userName, avatarUrl: avatarUrl)
+    }
 }
