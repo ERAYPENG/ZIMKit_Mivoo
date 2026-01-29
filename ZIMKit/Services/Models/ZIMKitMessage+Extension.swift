@@ -111,10 +111,8 @@ extension ZIMKitMessage {
             }
             switch subType {
             case .shareCard:
-                if let shareCardStr = json["shareCard"] as? String,
-                   let shareCardData = shareCardStr.data(using: .utf8),
-                   let shareCardDict = try? JSONSerialization.jsonObject(with: shareCardData) as? [String: Any] {
-                    
+                if let shareCardDict = json["shareCard"] as? [String: Any] {
+
                     shareCardContent.shopId = shareCardDict["shopId"] as? Int ?? 0
                     shareCardContent.cardId = shareCardDict["cardId"] as? Int ?? 0
                     shareCardContent.shareUserId = shareCardDict["shareUserId"] as? Int ?? 0
@@ -123,6 +121,7 @@ extension ZIMKitMessage {
                     shareCardContent.level = shareCardDict["level"] as? Int ?? 0
                     shareCardContent.zodiacSign = shareCardDict["zodiacSign"] as? Int ?? 0
                     shareCardContent.price = shareCardDict["price"] as? Int ?? 0
+
                 } else {
                     print("❌ shareCard 欄位解析失敗，內容：\(json["shareCard"] ?? "nil")")
                 }

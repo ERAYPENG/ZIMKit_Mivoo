@@ -766,21 +766,16 @@ extension ZIMKitCore {
             "zodiacSign": shareCardContent.zodiacSign,
             "price": shareCardContent.price
         ]
-        
-        var shareCardJSONString = ""
-        if let shareCardData = try? JSONSerialization.data(withJSONObject: shareCardDict, options: []),
-           let jsonStr = String(data: shareCardData, encoding: .utf8) {
-            shareCardJSONString = jsonStr
-        }
-        
+
         let extendedDict: [String: Any] = [
             "subType": CustomMessageSubType.shareCard.rawValue,
-            "shareCard": shareCardJSONString
+            "shareCard": shareCardDict
         ]
         
         if let data = try? JSONSerialization.data(withJSONObject: extendedDict, options: []),
            let jsonStr = String(data: data, encoding: .utf8) {
             customMessage.extendedData = jsonStr
+            print("Sending share card message JSON:\n\(jsonStr)")
         }
         
         customMessage.message = L10n("share_card")

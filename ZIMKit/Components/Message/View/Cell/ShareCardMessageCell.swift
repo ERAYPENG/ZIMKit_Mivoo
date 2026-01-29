@@ -19,7 +19,7 @@ final class ShareCardMessageCell: MessageCell {
 
     private lazy var cardView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 20 * scaled
+        view.layer.cornerRadius = 10 * scaled
         view.clipsToBounds = true
         view.backgroundColor = UIColor(hex: "#191828")
         view.isUserInteractionEnabled = true
@@ -34,6 +34,20 @@ final class ShareCardMessageCell: MessageCell {
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         return iv
+    }()
+    
+    private lazy var borderImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
+    private lazy var bottomBgView: UIView = {
+        let v = UIView()
+        v.backgroundColor = UIColor(hex: "#191828")
+        v.clipsToBounds = true
+        return v
     }()
 
     private lazy var titleLabel: UILabel = {
@@ -89,12 +103,30 @@ final class ShareCardMessageCell: MessageCell {
     private var cardHeightConstraint: NSLayoutConstraint!
 
     // MARK: - Setup
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        coverImageView.kf.cancelDownloadTask()
+
+        coverImageView.image = nil
+        borderImageView.image = nil
+
+        titleLabel.text = nil
+        zodiacLabel.text = nil
+        priceLabel.text = nil
+
+        cardWidthConstraint.constant = 240 * scaled
+        cardHeightConstraint.constant = 408 * scaled
+    }
 
     override func setUp() {
         super.setUp()
 
         containerView.addSubview(cardView)
         cardView.addSubview(coverImageView)
+        cardView.addSubview(borderImageView)
+        cardView.addSubview(bottomBgView)
         cardView.addSubview(titleLabel)
         cardView.addSubview(zodiacLabel)
         cardView.addSubview(priceIconImageView)
@@ -104,6 +136,8 @@ final class ShareCardMessageCell: MessageCell {
 
         cardView.translatesAutoresizingMaskIntoConstraints = false
         coverImageView.translatesAutoresizingMaskIntoConstraints = false
+        borderImageView.translatesAutoresizingMaskIntoConstraints = false
+        bottomBgView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         zodiacLabel.translatesAutoresizingMaskIntoConstraints = false
         priceIconImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -124,6 +158,16 @@ final class ShareCardMessageCell: MessageCell {
             coverImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
             coverImageView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor),
             coverImageView.heightAnchor.constraint(equalToConstant: 240 * scaled),
+            
+            borderImageView.topAnchor.constraint(equalTo: coverImageView.topAnchor),
+            borderImageView.leadingAnchor.constraint(equalTo: coverImageView.leadingAnchor),
+            borderImageView.trailingAnchor.constraint(equalTo: coverImageView.trailingAnchor),
+            borderImageView.bottomAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 20 * scaled),
+            
+            bottomBgView.topAnchor.constraint(equalTo: coverImageView.bottomAnchor),
+            bottomBgView.leadingAnchor.constraint(equalTo: coverImageView.leadingAnchor),
+            bottomBgView.trailingAnchor.constraint(equalTo: coverImageView.trailingAnchor),
+            bottomBgView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor),
 
             titleLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 12 * scaled),
             titleLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 10 * scaled),
@@ -164,6 +208,7 @@ final class ShareCardMessageCell: MessageCell {
         priceLabel.text = "\(content.price)"
 
         coverImageView.loadImage(with: content.cardUrl, placeholder: "avatar_default")
+        borderImageView.image = content.boderImage
 
         cardWidthConstraint.constant = vm.contentMediaSize.width
         cardHeightConstraint.constant = vm.contentMediaSize.height

@@ -105,6 +105,16 @@ public class ShareCardMessageContent: NSObject {
     @objc public var level: Int = 0
     @objc public var zodiacSign: Int = 0
     @objc public var price: Int = 0
+    
+    var boderImage: UIImage? {
+        if level < 2 {
+            return loadImageSafely(with: "level_boder_123")
+        } else if level < 5 {
+            return loadImageSafely(with: "level_boder_45")
+        } else {
+            return loadImageSafely(with: "level_boder_67")
+        }
+    }
 }
 
 public class FileMessageContent: NSObject {
