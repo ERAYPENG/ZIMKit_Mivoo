@@ -140,7 +140,7 @@ extension ZIMKitCore {
         pushConfig.payload = ""
         pushConfig.resourcesID = OfflinePushResourceID.textMessage
         
-        let dict:[String:String] = ["conversationID": conversationID,"conversationType":String(describing: type.rawValue)]
+        let dict:[String:String] = ["conversationID": self.localUser?.id ?? conversationID,"conversationType":String(describing: type.rawValue)]
         
         if let jsonString = zimKit_convertDictToString(dict: dict as [String :AnyObject]) {
             pushConfig.payload = jsonString
