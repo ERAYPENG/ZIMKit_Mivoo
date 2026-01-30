@@ -26,6 +26,17 @@ class TextMessageCell: RoundedBubbleMessageCell {
         return animationView
     }()
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        messageLabel.attributedText = nil
+        messageLabel.text = nil
+        messageLabel.isHidden = false
+
+        loadingView.stopAnimation()
+        loadingView.isHidden = true
+    }
+    
     override func setUp() {
         super.setUp()
     }
