@@ -167,9 +167,9 @@ class ZIMKitSingleDetailChatVC: _ViewController {
         switchButton.onTintColor = .zim_backgroundBlue1
         switchButton.tag = indexTag
         if indexTag == 1 {
-            switchButton.isOn = self.conversation.notificationStatus == .doNotDisturb ? true : false
-        } else {
             switchButton.isOn = self.conversation.isPinned
+        } else {
+//            switchButton.isOn = self.conversation.notificationStatus == .doNotDisturb ? true : false
         }
         view.addSubview(switchButton)
         NSLayoutConstraint.activate([
@@ -187,15 +187,15 @@ class ZIMKitSingleDetailChatVC: _ViewController {
     
     @objc func didItemClick(_ button: UISwitch) {
         if button.tag == 1 {
-            ZIMKit.setConversationNotificationStatus(for: self.conversation.id, type: .peer, status: button.isOn ? .doNotDisturb : .notify) { [weak self] error in
-                print("设置免打扰 \(button.isOn ? "免打扰": "接收消息") error = \(error)")
-                self?.delegate?.messageNotDisturb(isDisturb: button.isOn ? false : true)
-            }
-        } else {
             ZIMKit.updateConversationPinnedState(for: self.conversation.id, type: .peer, isPinned: button.isOn ? true : false) { [weak self] error in
                 print("设置消息置顶 \(button.isOn ? "置顶": "取消置顶") error = \(error)")
                 self?.delegate?.messagePinned(isPinned: button.isOn ? true : false)
             }
+        } else {
+//            ZIMKit.setConversationNotificationStatus(for: self.conversation.id, type: .peer, status: button.isOn ? .doNotDisturb : .notify) { [weak self] error in
+//                print("设置免打扰 \(button.isOn ? "免打扰": "接收消息") error = \(error)")
+//                self?.delegate?.messageNotDisturb(isDisturb: button.isOn ? false : true)
+//            }
         }
     }
 }
